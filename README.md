@@ -24,7 +24,7 @@ I developed a fully functioning e-commerce flutter application that is compatibl
 - **Sign-in, Sign-up, Reset password, Log-out.**
 - **Users can edit their information** (Name, Phone number, Address).
 - **View products by category.**
-- **Search for a product** (currently being implemented).
+- **Search for a product.**
 - **Cache images for faster load times.**
 - **Zoom-in on images.**
 - **Maintain cart.**
