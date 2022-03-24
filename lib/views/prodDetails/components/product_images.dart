@@ -105,7 +105,7 @@ class _ProductImagesState extends State<ProductImages> with TickerProviderStateM
                       ),
                     ),
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),
@@ -131,12 +131,12 @@ class _ProductImagesState extends State<ProductImages> with TickerProviderStateM
       },
       child: AnimatedContainer(
         duration: defaultDuration,
-        margin: EdgeInsets.only(right: 15),
-        padding: EdgeInsets.all(7),
+        margin: const EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.all(7),
         height: getProportionateScreenWidth(48),
         width: getProportionateScreenWidth(48),
         decoration: BoxDecoration(
-          color: Color(0xfff6f8f8),
+          color: const Color(0xfff6f8f8),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: PrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
@@ -157,7 +157,7 @@ class _ProductImagesState extends State<ProductImages> with TickerProviderStateM
               ),
             ),
           ),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
       ),
     );

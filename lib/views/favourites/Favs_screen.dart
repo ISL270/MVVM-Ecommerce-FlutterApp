@@ -1,6 +1,6 @@
 import '../../../models/product_card.dart';
-import '../../../view_models/auth_viewModel.dart';
-import '../../../view_models/globalVariables_viewModel.dart';
+import '../../view_models/auth_view_model.dart';
+import '../../view_models/global_vars_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
@@ -9,6 +9,8 @@ import '../../utils/size_config.dart';
 
 class FavScreen extends StatefulWidget {
   static String routeName = '/favs';
+
+  const FavScreen({Key key}) : super(key: key);
 
   @override
   State<FavScreen> createState() => _FavScreenState();
@@ -21,7 +23,7 @@ class _FavScreenState extends State<FavScreen> {
   @override
   void initState() {
     _u = Provider.of<AuthViewModel>(context, listen: false).CurrentUser();
-    _futureUserInfo = Provider.of<globalVars>(context, listen: false).getUserInfo(_u);
+    _futureUserInfo = Provider.of<GlobalVars>(context, listen: false).getUserInfo(_u);
     super.initState();
   }
 
@@ -29,7 +31,7 @@ class _FavScreenState extends State<FavScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Consumer<globalVars>(builder: (_, gv, __) {
+        body: Consumer<GlobalVars>(builder: (_, gv, __) {
           return FutureBuilder(
               future: _futureUserInfo,
               builder: (context, snapshot) {
@@ -54,13 +56,13 @@ class _FavScreenState extends State<FavScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.favorite_border_outlined,
                             size: 90,
                             color: PrimaryColor,
                           ),
                           SizedBox(height: getProportionateScreenHeight(10)),
-                          Text(
+                          const Text(
                             'No Favourite Items',
                             style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                           )
@@ -68,21 +70,20 @@ class _FavScreenState extends State<FavScreen> {
                       ),
                     );
                   }
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                } else {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.favorite_border_outlined,
                           size: 90,
                           color: PrimaryColor,
                         ),
                         SizedBox(height: getProportionateScreenHeight(10)),
-                        Text(
+                        const Text(
                           'No Favourite Items',
                           style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                         )
@@ -90,25 +91,6 @@ class _FavScreenState extends State<FavScreen> {
                     ),
                   );
                 }
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.favorite_border_outlined,
-                        size: 90,
-                        color: PrimaryColor,
-                      ),
-                      SizedBox(height: getProportionateScreenHeight(10)),
-                      Text(
-                        'No Favourite Items',
-                        style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
-                      )
-                    ],
-                  ),
-                );
               });
         }),
       ),

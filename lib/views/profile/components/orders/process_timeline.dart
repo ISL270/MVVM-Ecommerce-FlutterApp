@@ -9,9 +9,9 @@ const inProgressColor = Color(0xFFBFBDBD);
 const todoColor = Color(0xFFBFBDBD);
 
 class ProcessTimelinePage extends StatefulWidget {
-  String _progress;
+  final String _progress;
 
-  ProcessTimelinePage(this._progress);
+  const ProcessTimelinePage(this._progress, {Key key}) : super(key: key);
 
   @override
   _ProcessTimelinePageState createState() => _ProcessTimelinePageState();
@@ -46,7 +46,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
       shrinkWrap: true,
       theme: TimelineThemeData(
         direction: Axis.horizontal,
-        connectorTheme: ConnectorThemeData(
+        connectorTheme: const ConnectorThemeData(
           space: 20.0,
           thickness: 4.5,
         ),
@@ -74,7 +74,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
 
           if (index < _processIndex) {
             color = completeColor;
-            child = Icon(
+            child = const Icon(
               Icons.check,
               color: Colors.white,
               size: 13.0,
@@ -87,7 +87,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
             return Stack(
               children: [
                 CustomPaint(
-                  size: Size(28.0, 28.0),
+                  size: const Size(28.0, 28.0),
                   painter: _BezierPainter(
                     color: color,
                     drawStart: index > 0,
@@ -105,7 +105,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
             return Stack(
               children: [
                 CustomPaint(
-                  size: Size(28.0, 28.0),
+                  size: const Size(28.0, 28.0),
                   painter: _BezierPainter(
                     color: color,
                     drawStart: index > 0,

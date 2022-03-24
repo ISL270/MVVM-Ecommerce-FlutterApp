@@ -1,22 +1,25 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
-import '../../../view_models/globalVariables_viewModel.dart';
+import '../../view_models/global_vars_view_model.dart';
 import 'package:provider/provider.dart';
-import '../../../view_models/auth_viewModel.dart';
+import '../../view_models/auth_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../../view_models/user_info_viewModel.dart';
+import '../../view_models/user_info_view_model.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import '../../../views/profile/components/userInfo/userInfo.dart';
+import '../profile/components/userInfo/user_info.dart';
 
 class CheckoutBottomSheet extends StatefulWidget {
   bool paymentSection = false;
   bool addressSection = false;
   bool TotalSection = false;
+
+  CheckoutBottomSheet({Key key}) : super(key: key);
 
   @override
   _CheckoutBottomSheetState createState() => _CheckoutBottomSheetState();
@@ -26,13 +29,13 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
   User user;
   ButtonState stateTextWithIcon = ButtonState.idle;
 
-  void onPressedIconWithText(globalVars gv, user_info_viewModel u) async {
+  void onPressedIconWithText(GlobalVars gv, UserInfoViewModel u) async {
     setState(() {
       stateTextWithIcon = ButtonState.loading;
     });
     bool connection = await InternetConnectionChecker().hasConnection;
     if (connection == true) {
-      Future.delayed(Duration(milliseconds: 600), () {
+      Future.delayed(const Duration(milliseconds: 600), () {
         try {
           if (gv.paymentMethod != 'Select Method') {
             List<dynamic> tempCart = [];
@@ -53,7 +56,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
             setState(() {
               stateTextWithIcon = ButtonState.success;
             });
-            Future.delayed(Duration(milliseconds: 1250), () {
+            Future.delayed(const Duration(milliseconds: 1250), () {
               Navigator.pop(context);
             });
             gv.selectedPage = 0;
@@ -61,7 +64,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
             setState(() {
               stateTextWithIcon = ButtonState.ExtraState1;
             });
-            Future.delayed(Duration(milliseconds: 2000), () {
+            Future.delayed(const Duration(milliseconds: 2000), () {
               setState(() {
                 stateTextWithIcon = ButtonState.idle;
               });
@@ -71,19 +74,19 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
           setState(() {
             stateTextWithIcon = ButtonState.fail;
           });
-          Future.delayed(Duration(milliseconds: 1500), () {
+          Future.delayed(const Duration(milliseconds: 1500), () {
             setState(() {
               stateTextWithIcon = ButtonState.idle;
             });
           });
-          print(e);
+          log(e);
         }
       });
     } else {
       setState(() {
         stateTextWithIcon = ButtonState.fail;
       });
-      Future.delayed(Duration(milliseconds: 1500), () {
+      Future.delayed(const Duration(milliseconds: 1500), () {
         if (!mounted) return;
         setState(() {
           stateTextWithIcon = ButtonState.idle;
@@ -92,12 +95,12 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
     }
   }
 
-  Widget buildTextWithIcon(globalVars gv, user_info_viewModel u) {
+  Widget buildTextWithIcon(GlobalVars gv, UserInfoViewModel u) {
     return ProgressButton.icon(
         radius: 20.0,
-        textStyle: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
+        textStyle: const TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
         iconedButtons: {
-          ButtonState.idle: IconedButton(
+          ButtonState.idle: const IconedButton(
               text: 'Place Order',
               icon: Icon(
                 Icons.add_rounded,
@@ -105,8 +108,8 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                 color: PrimaryColor,
               ),
               color: PrimaryColor),
-          ButtonState.loading: IconedButton(text: 'Loading', color: PrimaryColor),
-          ButtonState.fail: IconedButton(
+          ButtonState.loading: const IconedButton(text: 'Loading', color: PrimaryColor),
+          ButtonState.fail: const IconedButton(
               text: 'Connection Lost',
               icon: Icon(
                 Icons.cancel,
@@ -115,12 +118,12 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
               color: PrimaryColor),
           ButtonState.success: IconedButton(
               text: 'Order Placed',
-              icon: Icon(
+              icon: const Icon(
                 Icons.check_circle,
                 color: Colors.white,
               ),
               color: Colors.green.shade400),
-          ButtonState.ExtraState1: IconedButton(
+          ButtonState.ExtraState1: const IconedButton(
               text: 'Choose payment method',
               icon: Icon(
                 Icons.cancel,
@@ -135,39 +138,39 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
   @override
   Widget build(BuildContext context) {
     user = context.read<AuthViewModel>().CurrentUser();
-    final user_info_viewModel u = user_info_viewModel(uid: user.uid);
-    return Consumer<globalVars>(builder: (_, gv, __) {
+    final UserInfoViewModel u = UserInfoViewModel(uid: user.uid);
+    return Consumer<GlobalVars>(builder: (_, gv, __) {
       gv.getUserInfo(user);
       return Container(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 25,
           vertical: 30,
         ),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         child: ListView(
           shrinkWrap: true,
           children: <Widget>[
             Row(
               children: [
-                Text(
+                const Text(
                   'Checkout',
                   style: TextStyle(
                     fontSize: 24,
                     color: PrimaryColor,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.close,
                       size: 25,
                     ))
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             getDivider(),
@@ -197,12 +200,12 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                           widget.paymentSection = !widget.paymentSection;
                         });
                       },
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text('Cash on Delivery'),
                         trailing: Icon(Icons.local_atm_outlined),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       indent: 17,
                       endIndent: 17,
                       thickness: 1,
@@ -216,7 +219,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                           widget.paymentSection = !widget.paymentSection;
                         });
                       },
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text('Credit/Debit Card'),
                         trailing: Icon(Icons.credit_card),
                       ),
@@ -260,7 +263,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                               widget.addressSection = false;
                             }));
                       },
-                      child: Text(
+                      child: const Text(
                         'Edit',
                         style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'PantonBoldItalic'),
                       ),
@@ -270,7 +273,6 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                 ],
               ),
             ),
-            //checkoutRow("Promo Code", trailingText: "Pick Discount"),
             getDivider(),
             InkWell(
               child: checkoutRow('Total Cost', widget.TotalSection, false, trailingText: '${(gv.total).toString()} EGP'),
@@ -290,7 +292,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                 child: Column(
                   children: [
                     ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: gv.userCart.length,
@@ -304,19 +306,19 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                               leading: Text('${gv.userCart[index].quantity.toString()}x'),
                               trailing: Text((gv.userCart[index].quantity * gv.userCart[index].product.price).toString()),
                             )),
-                    ListTile(
+                    const ListTile(
                       title: Text('Shipping fees'),
                       trailing: Text('40'),
                     )
                   ],
                 )),
             getDivider(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             termsAndConditionsAgreement(context),
             Container(
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 25,
               ),
               child: buildTextWithIcon(gv, u),
@@ -328,7 +330,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
   }
 
   Widget getDivider() {
-    return Divider(
+    return const Divider(
       thickness: 1,
       color: Color(0xFFE2E2E2),
     );
@@ -339,12 +341,12 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
       text: TextSpan(
           text: 'By placing an order you agree to our',
           style: TextStyle(
-            color: Color(0xFF7C7C7C),
+            color: const Color(0xFF7C7C7C),
             fontSize: 14,
             fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
             fontWeight: FontWeight.w600,
           ),
-          children: [
+          children: const [
             TextSpan(text: ' Terms', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
             TextSpan(text: ' And'),
             TextSpan(text: ' Conditions', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
@@ -354,20 +356,20 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
 
   Widget checkoutRow(String label, bool b, bool overflow, {String trailingText, Widget trailingWidget}) {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 15,
       ),
       child: Row(
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: Color(0xFF7C7C7C),
               fontWeight: FontWeight.w600,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           trailingText == null
               ? trailingWidget
               : overflow
@@ -377,7 +379,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                         maxLines: 1,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -386,13 +388,13 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                     )
                   : Text(
                       trailingText,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           Icon(

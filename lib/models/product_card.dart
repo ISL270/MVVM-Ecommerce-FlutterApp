@@ -64,7 +64,7 @@ class ProductCard extends StatelessWidget {
             SizedBox(height: getProportionateScreenHeight(6.5)),
             Text(product.title, maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.black)),
             Text(
-              "${product.price} EGP",
+              '${product.price} EGP',
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(16),
                 fontFamily: 'PantonBold',

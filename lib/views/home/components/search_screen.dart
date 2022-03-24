@@ -4,10 +4,12 @@ import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';
 import '../../../models/product_card.dart';
 import 'package:provider/provider.dart';
-import '../../../view_models/globalVariables_viewModel.dart';
+import '../../../view_models/global_vars_view_model.dart';
 
 class SearchScreen extends StatelessWidget {
   static String routeName = '/search';
+
+  const SearchScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class SearchScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 5,
         shadowColor: SecondaryColorDark.withOpacity(0.2),
-        iconTheme: IconThemeData(color: SecondaryColorDark),
+        iconTheme: const IconThemeData(color: SecondaryColorDark),
         title: Text(
           args.keyword,
           style: TextStyle(
@@ -29,15 +31,15 @@ class SearchScreen extends StatelessWidget {
         ),
         backgroundColor: CardBackgroundColor,
       ),
-      body: Consumer<globalVars>(builder: (_, gv, __) {
+      body: Consumer<GlobalVars>(builder: (_, gv, __) {
         List<Product> _searchList = [];
 
         gv.AllProds.forEach((key, value) {
-          value.forEach((element) {
+          for (var element in value) {
             if (element.title.toUpperCase().contains(args.keyword.toUpperCase())) {
               _searchList.add(element);
             }
-          });
+          }
         });
 
         return _searchList.isNotEmpty
@@ -59,13 +61,13 @@ class SearchScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.sentiment_dissatisfied_rounded,
                       size: 90,
                       color: PrimaryColor,
                     ),
                     SizedBox(height: getProportionateScreenHeight(10)),
-                    Text(
+                    const Text(
                       'No Products Found',
                       style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                     )

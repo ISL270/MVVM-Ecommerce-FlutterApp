@@ -1,9 +1,10 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../../../utils/form_error.dart';
 import '../../../views/home/home_screen.dart';
 import '../../utils/constants.dart';
 import '../../utils/size_config.dart';
-import '../../view_models/auth_viewModel.dart';
+import '../../view_models/auth_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
@@ -13,6 +14,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SignUpScreen extends StatefulWidget {
   static String routeName = '/sign_up';
+
+  const SignUpScreen({Key key}) : super(key: key);
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -68,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   SizedBox(height: getProportionateScreenWidth(5)),
-                  Text(
+                  const Text(
                     'Fill all details to create your account',
                     style: TextStyle(fontFamily: 'Panton'),
                     textAlign: TextAlign.center,
@@ -99,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 fontSize: SizeConfig.screenWidth * 0.046,
                               ),
                             ),
-                            Container(padding: EdgeInsets.symmetric(horizontal: 15), decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.0), border: Border.all(color: SecondaryColorDark, width: 2.8)), child: buildGovDropdown()),
+                            Container(padding: const EdgeInsets.symmetric(horizontal: 15), decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.0), border: Border.all(color: SecondaryColorDark, width: 2.8)), child: buildGovDropdown()),
                           ],
                         ),
                         SizedBox(height: getProportionateScreenHeight(30)),
@@ -127,7 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
     bool connection = await InternetConnectionChecker().hasConnection;
     if (connection == true) {
-      Future.delayed(Duration(milliseconds: 400), () async {
+      Future.delayed(const Duration(milliseconds: 400), () async {
         if (_formKey.currentState.validate()) {
           _formKey.currentState.save();
           try {
@@ -140,25 +143,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
               KeyboardUtil.hideKeyboard(context);
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
                 (Route<dynamic> route) => false,
               );
             } else {
               setState(() {
                 _stateTextWithIcon = ButtonState.fail;
               });
-              Future.delayed(Duration(milliseconds: 1600), () {
+              Future.delayed(const Duration(milliseconds: 1600), () {
                 setState(() {
                   _stateTextWithIcon = ButtonState.idle;
                 });
               });
             }
           } catch (e) {
-            print(e);
+            log(e);
             setState(() {
               _stateTextWithIcon = ButtonState.fail;
             });
-            Future.delayed(Duration(milliseconds: 1600), () {
+            Future.delayed(const Duration(milliseconds: 1600), () {
               setState(() {
                 _stateTextWithIcon = ButtonState.idle;
               });
@@ -168,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           setState(() {
             _stateTextWithIcon = ButtonState.success;
           });
-          Future.delayed(Duration(milliseconds: 1600), () {
+          Future.delayed(const Duration(milliseconds: 1600), () {
             setState(() {
               _stateTextWithIcon = ButtonState.idle;
             });
@@ -179,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         _stateTextWithIcon = ButtonState.ExtraState1;
       });
-      Future.delayed(Duration(milliseconds: 1600), () {
+      Future.delayed(const Duration(milliseconds: 1600), () {
         if (!mounted) return;
         setState(() {
           _stateTextWithIcon = ButtonState.idle;
@@ -193,8 +196,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         height: getProportionateScreenWidth(58),
         maxWidth: getProportionateScreenWidth(400),
         radius: 20.0,
-        textStyle: TextStyle(color: Color(0xffeeecec), fontSize: 18, fontFamily: 'PantonBoldItalic'),
-        iconedButtons: {
+        textStyle: const TextStyle(color: Color(0xffeeecec), fontSize: 18, fontFamily: 'PantonBoldItalic'),
+        iconedButtons: const {
           ButtonState.idle: IconedButton(
               text: 'Continue',
               icon: Icon(
@@ -225,17 +228,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void addError({String error}) {
-    if (!_errors.contains(error))
-      setState(() {
-        _errors.add(error);
-      });
+    if (!_errors.contains(error)) setState(() => _errors.add(error));
   }
 
   void removeError({String error}) {
-    if (_errors.contains(error))
-      setState(() {
-        _errors.remove(error);
-      });
+    if (_errors.contains(error)) setState(() => _errors.remove(error));
   }
 
   List<DropdownMenuItem> getDropdownItems() {
@@ -253,7 +250,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       obscureText: true,
       onSaved: (newValue) => _password = newValue,
       onChanged: (value) {
@@ -275,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         } else if (!passwordValidatorRegExp.hasMatch(value)) {
           addError(error: InvalidPassError);
           return '';
-        } else if (value.length < 8 && value.length != 0) {
+        } else if (value.length < 8 && value.isNotEmpty) {
           addError(error: ShortPassError);
           return '';
         } else if (_password != value) {
@@ -303,7 +300,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextFormField buildConfirmPassFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       obscureText: true,
       onSaved: (newValue) => _confirmPassword = newValue,
       onChanged: (value) {
@@ -339,7 +336,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => _email = newValue,
       onChanged: (value) {
@@ -379,7 +376,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextFormField buildAddressFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       onSaved: (newValue) => _address = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -413,7 +410,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       keyboardType: TextInputType.phone,
       onSaved: (newValue) => _phoneNumber = newValue,
       onChanged: (value) {
@@ -453,7 +450,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextFormField buildFullNameFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       onSaved: (newValue) => _fullName = newValue,
       onChanged: (value) {
         if (value.isEmpty || nameValidatorRegExp.hasMatch(value)) {
@@ -500,7 +497,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           });
         },
         dropdownColor: PrimaryLightColor,
-        style: TextStyle(
+        style: const TextStyle(
           color: SecondaryColorDark,
           fontFamily: 'PantonBoldItalic',
         ));

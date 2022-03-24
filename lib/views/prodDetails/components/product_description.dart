@@ -25,7 +25,7 @@ class ProductDescription extends StatelessWidget {
             maxLines: 3,
             softWrap: false,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: SecondaryColorDark, fontSize: 20, fontWeight: FontWeight.w600, fontFamily: 'PantonItalic'),
+            style: const TextStyle(color: SecondaryColorDark, fontSize: 20, fontWeight: FontWeight.w600, fontFamily: 'PantonItalic'),
           ),
         ),
         Padding(
@@ -39,7 +39,7 @@ class ProductDescription extends StatelessWidget {
               children: [
                 Text(
                   product.price.toString() + ' EGP',
-                  style: TextStyle(color: PrimaryColor, fontSize: 18, fontFamily: 'PantonBoldItalic'),
+                  style: const TextStyle(color: PrimaryColor, fontSize: 18, fontFamily: 'PantonBoldItalic'),
                 ),
               ],
             ),

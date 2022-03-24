@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';
@@ -8,6 +9,8 @@ import 'package:progress_state_button/progress_button.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ResetPassBottomSheet extends StatefulWidget {
+  const ResetPassBottomSheet({Key key}) : super(key: key);
+
   @override
   _ResetPassBottomSheetState createState() => _ResetPassBottomSheetState();
 }
@@ -15,18 +18,18 @@ class ResetPassBottomSheet extends StatefulWidget {
 class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  List<String> _errors = [];
+  final List<String> _errors = [];
   String _email;
   ButtonState _stateTextWithIcon = ButtonState.idle;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 30,
         vertical: 30,
       ),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
@@ -86,7 +89,7 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
     });
     bool connection = await InternetConnectionChecker().hasConnection;
     if (connection == true) {
-      Future.delayed(Duration(milliseconds: 400), () async {
+      Future.delayed(const Duration(milliseconds: 400), () async {
         if (_formKey.currentState.validate()) {
           _formKey.currentState.save();
           try {
@@ -94,17 +97,17 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
             setState(() {
               _stateTextWithIcon = ButtonState.success;
             });
-            Future.delayed(Duration(milliseconds: 1300), () {
+            Future.delayed(const Duration(milliseconds: 1300), () {
               setState(() {
                 Navigator.pop(context);
               });
             });
           } catch (e) {
-            print(e);
+            log(e);
             setState(() {
               _stateTextWithIcon = ButtonState.ExtraState1;
             });
-            Future.delayed(Duration(milliseconds: 1600), () {
+            Future.delayed(const Duration(milliseconds: 1600), () {
               setState(() {
                 _stateTextWithIcon = ButtonState.idle;
               });
@@ -114,7 +117,7 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
           setState(() {
             _stateTextWithIcon = ButtonState.ExtraState1;
           });
-          Future.delayed(Duration(milliseconds: 1600), () {
+          Future.delayed(const Duration(milliseconds: 1600), () {
             setState(() {
               _stateTextWithIcon = ButtonState.idle;
             });
@@ -125,7 +128,7 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
       setState(() {
         _stateTextWithIcon = ButtonState.fail;
       });
-      Future.delayed(Duration(milliseconds: 1600), () {
+      Future.delayed(const Duration(milliseconds: 1600), () {
         if (!mounted) return;
         setState(() {
           _stateTextWithIcon = ButtonState.idle;
@@ -139,9 +142,9 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
         height: getProportionateScreenWidth(58),
         maxWidth: getProportionateScreenWidth(400),
         radius: 20.0,
-        textStyle: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
+        textStyle: const TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
         iconedButtons: {
-          ButtonState.idle: IconedButton(
+          ButtonState.idle: const IconedButton(
               text: 'Reset Password',
               icon: Icon(
                 Icons.add_rounded,
@@ -149,8 +152,8 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
                 color: PrimaryColor,
               ),
               color: PrimaryColor),
-          ButtonState.loading: IconedButton(text: 'Loading', color: PrimaryColor),
-          ButtonState.fail: IconedButton(
+          ButtonState.loading: const IconedButton(text: 'Loading', color: PrimaryColor),
+          ButtonState.fail: const IconedButton(
               text: 'Connection Lost',
               icon: Icon(
                 Icons.cancel,
@@ -159,12 +162,12 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
               color: PrimaryColor),
           ButtonState.success: IconedButton(
               text: 'Emial Sent',
-              icon: Icon(
+              icon: const Icon(
                 Icons.check_circle,
                 color: Colors.white,
               ),
               color: Colors.green.shade400),
-          ButtonState.ExtraState1: IconedButton(
+          ButtonState.ExtraState1: const IconedButton(
               text: 'Invalid Input',
               icon: Icon(
                 Icons.cancel,

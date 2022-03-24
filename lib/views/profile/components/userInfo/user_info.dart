@@ -1,11 +1,12 @@
+import 'dart:developer';
 import '../../../../utils/constants.dart';
-import '../../../../view_models/globalVariables_viewModel.dart';
+import '../../../../view_models/global_vars_view_model.dart';
 import '../../../../utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/keyboard.dart';
-import '../../../../view_models/user_info_viewModel.dart';
-import '../../../../view_models/auth_viewModel.dart';
+import '../../../../view_models/user_info_view_model.dart';
+import '../../../../view_models/auth_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../utils/form_error.dart';
 import 'package:progress_state_button/iconed_button.dart';
@@ -14,6 +15,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class UserInfoScreen extends StatefulWidget {
   static String routeName = '/userInfo';
+
+  const UserInfoScreen({Key key}) : super(key: key);
   @override
   State<UserInfoScreen> createState() => _UserInfoScreenState();
 }
@@ -33,7 +36,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   void initState() {
     _u = Provider.of<AuthViewModel>(context, listen: false).CurrentUser();
-    _futureUserInfo = Provider.of<globalVars>(context, listen: false).getUserInfo(_u);
+    _futureUserInfo = Provider.of<GlobalVars>(context, listen: false).getUserInfo(_u);
     super.initState();
   }
 
@@ -46,7 +49,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         appBar: AppBar(
           elevation: 5,
           shadowColor: SecondaryColorDark.withOpacity(0.2),
-          iconTheme: IconThemeData(color: SecondaryColorDark),
+          iconTheme: const IconThemeData(color: SecondaryColorDark),
           title: Text(
             'My Details',
             style: TextStyle(
@@ -58,7 +61,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           ),
           backgroundColor: CardBackgroundColor,
         ),
-        body: Consumer<globalVars>(builder: (_, gv, __) {
+        body: Consumer<GlobalVars>(builder: (_, gv, __) {
           return FutureBuilder(
             future: _futureUserInfo,
             builder: (context, snapshot) {
@@ -99,7 +102,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                             fontSize: SizeConfig.screenWidth * 0.046,
                                           ),
                                         ),
-                                        Container(padding: EdgeInsets.symmetric(horizontal: 15), decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.0), border: Border.all(color: SecondaryColorDark, width: 2.8)), child: buildGovDropdown(gv.UserInfo['Governorate'])),
+                                        Container(padding: const EdgeInsets.symmetric(horizontal: 15), decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.0), border: Border.all(color: SecondaryColorDark, width: 2.8)), child: buildGovDropdown(gv.UserInfo['Governorate'])),
                                       ],
                                     ),
                                     SizedBox(height: getProportionateScreenHeight(30)),
@@ -119,18 +122,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     ],
                   ),
                 );
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
+              } else {
                 return Center(
-                  child: Container(
+                  child: SizedBox(
                       height: getProportionateScreenWidth(40),
                       width: getProportionateScreenWidth(40),
-                      child: CircularProgressIndicator(
+                      child: const CircularProgressIndicator(
                         color: SecondaryColorDark,
                       )),
                 );
               }
-              return Container();
             },
           );
         }),
@@ -144,26 +145,26 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     });
     bool connection = await InternetConnectionChecker().hasConnection;
     if (connection == true) {
-      Future.delayed(Duration(milliseconds: 400), () async {
+      Future.delayed(const Duration(milliseconds: 400), () async {
         if (_formKey.currentState.validate()) {
           _formKey.currentState.save();
           try {
             KeyboardUtil.hideKeyboard(context);
-            await user_info_viewModel(uid: _u.uid).addUserData(_fullName, _phoneNumber, _selectedGov, _address);
+            await UserInfoViewModel(uid: _u.uid).addUserData(_fullName, _phoneNumber, _selectedGov, _address);
             setState(() {
               _stateTextWithIcon = ButtonState.success;
             });
-            Future.delayed(Duration(milliseconds: 1300), () {
+            Future.delayed(const Duration(milliseconds: 1300), () {
               setState(() {
                 _stateTextWithIcon = ButtonState.idle;
               });
             });
           } catch (e) {
-            print(e);
+            log(e);
             setState(() {
               _stateTextWithIcon = ButtonState.ExtraState1;
             });
-            Future.delayed(Duration(milliseconds: 1600), () {
+            Future.delayed(const Duration(milliseconds: 1600), () {
               setState(() {});
             });
           }
@@ -171,7 +172,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           setState(() {
             _stateTextWithIcon = ButtonState.fail;
           });
-          Future.delayed(Duration(milliseconds: 1600), () {
+          Future.delayed(const Duration(milliseconds: 1600), () {
             setState(() {
               _stateTextWithIcon = ButtonState.idle;
             });
@@ -182,7 +183,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       setState(() {
         _stateTextWithIcon = ButtonState.ExtraState1;
       });
-      Future.delayed(Duration(milliseconds: 1600), () {
+      Future.delayed(const Duration(milliseconds: 1600), () {
         if (!mounted) return;
         setState(() {
           _stateTextWithIcon = ButtonState.idle;
@@ -196,9 +197,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         height: getProportionateScreenWidth(60),
         maxWidth: getProportionateScreenWidth(400),
         radius: 20.0,
-        textStyle: TextStyle(color: Color(0xffeeecec), fontSize: getProportionateScreenWidth(20), fontFamily: 'PantonBoldItalic'),
+        textStyle: TextStyle(color: const Color(0xffeeecec), fontSize: getProportionateScreenWidth(20), fontFamily: 'PantonBoldItalic'),
         iconedButtons: {
-          ButtonState.idle: IconedButton(
+          ButtonState.idle: const IconedButton(
               text: 'Apply',
               icon: Icon(
                 Icons.add_rounded,
@@ -206,16 +207,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 color: PrimaryColor,
               ),
               color: PrimaryColor),
-          ButtonState.loading: IconedButton(text: 'Loading', color: PrimaryColor),
-          ButtonState.fail: IconedButton(text: 'Invalid Input', icon: Icon(Icons.cancel, color: Colors.white), color: PrimaryColor),
+          ButtonState.loading: const IconedButton(text: 'Loading', color: PrimaryColor),
+          ButtonState.fail: const IconedButton(text: 'Invalid Input', icon: Icon(Icons.cancel, color: Colors.white), color: PrimaryColor),
           ButtonState.success: IconedButton(
               text: 'applied successfully',
-              icon: Icon(
+              icon: const Icon(
                 Icons.check_circle,
                 color: Colors.white,
               ),
               color: Colors.green.shade400),
-          ButtonState.ExtraState1: IconedButton(
+          ButtonState.ExtraState1: const IconedButton(
               text: 'Connection Lost',
               icon: Icon(
                 Icons.cancel,
@@ -230,7 +231,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   TextFormField buildEmailFormField(String LabelText) {
     return TextFormField(
       enableInteractiveSelection: false,
-      style: TextStyle(fontWeight: FontWeight.w900, fontSize: getProportionateScreenWidth(16), color: Color(0xff5c5e5e)),
+      style: TextStyle(fontWeight: FontWeight.w900, fontSize: getProportionateScreenWidth(16), color: const Color(0xff5c5e5e)),
       initialValue: LabelText,
       readOnly: true,
       decoration: InputDecoration(
@@ -250,11 +251,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   TextFormField buildAddressFormField(String LabelText) {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       onSaved: (newValue) => newValue.isEmpty ? _address : _address = newValue,
       decoration: InputDecoration(
         labelText: LabelText,
-        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(14)),
+        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: const Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(14)),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         contentPadding: EdgeInsets.only(top: getProportionateScreenWidth(20), bottom: getProportionateScreenWidth(20), left: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
@@ -271,7 +272,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   TextFormField buildPhoneNumberFormField(String LabelText) {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       keyboardType: TextInputType.phone,
       onSaved: (newValue) => newValue.isEmpty ? _phoneNumber : _phoneNumber = newValue,
       onChanged: (value) {
@@ -289,7 +290,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       },
       decoration: InputDecoration(
         labelText: LabelText,
-        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(16)),
+        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: const Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(16)),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
@@ -306,7 +307,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   TextFormField buildFullNameFormField(String LabelText) {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       onSaved: (newValue) => newValue.isEmpty ? _fullName : _fullName = newValue,
       onChanged: (value) {
         if (value.isNotEmpty && nameValidatorRegExp.hasMatch(value)) {
@@ -323,7 +324,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       },
       decoration: InputDecoration(
         labelText: LabelText,
-        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(16)),
+        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: const Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(16)),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
@@ -361,23 +362,17 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           });
         },
         dropdownColor: PrimaryLightColor,
-        style: TextStyle(
+        style: const TextStyle(
           color: Color(0xff5c5e5e),
           fontFamily: 'PantonBoldItalic',
         ));
   }
 
   void addError({String error}) {
-    if (!_errors.contains(error))
-      setState(() {
-        _errors.add(error);
-      });
+    if (!_errors.contains(error)) setState(() => _errors.add(error));
   }
 
   void removeError({String error}) {
-    if (_errors.contains(error))
-      setState(() {
-        _errors.remove(error);
-      });
+    if (_errors.contains(error)) setState(() => _errors.remove(error));
   }
 }

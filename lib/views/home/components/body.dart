@@ -4,14 +4,16 @@ import 'categories.dart';
 import '../../../utils/constants.dart';
 import '../../../models/category.dart';
 import 'package:provider/provider.dart';
-import '../../../view_models/globalVariables_viewModel.dart';
+import '../../../view_models/global_vars_view_model.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../../views/home/components/searchBar.dart';
-import '../../../views/home/components/homeShimmer.dart';
+import 'search_bar.dart';
+import 'home_shimmer.dart';
 
 class HomeBody extends StatefulWidget {
+  const HomeBody({Key key}) : super(key: key);
+
   @override
   State<HomeBody> createState() => _HomeBodyState();
 }
@@ -23,8 +25,8 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   void initState() {
-    _futureProds = Provider.of<globalVars>(context, listen: false).getAllProds();
-    _futureHomeImages = Provider.of<globalVars>(context, listen: false).getHomeImages();
+    _futureProds = Provider.of<GlobalVars>(context, listen: false).getAllProds();
+    _futureHomeImages = Provider.of<GlobalVars>(context, listen: false).getHomeImages();
     super.initState();
   }
 
@@ -42,7 +44,7 @@ class _HomeBodyState extends State<HomeBody> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (_connection == true) {
-                    return Consumer<globalVars>(builder: (_, gv, __) {
+                    return Consumer<GlobalVars>(builder: (_, gv, __) {
                       return FutureBuilder(
                           future: Future.wait([_futureProds, _futureHomeImages]),
                           builder: (context, snapshot) {
@@ -50,9 +52,9 @@ class _HomeBodyState extends State<HomeBody> {
                               return Column(
                                 children: [
                                   SizedBox(height: getProportionateScreenHeight(15)),
-                                  searchBar(),
+                                  const SearchBar(),
                                   SizedBox(height: getProportionateScreenWidth(5)),
-                                  Categories(),
+                                  const Categories(),
                                   CarouselSlider(
                                     options: CarouselOptions(
                                       viewportFraction: 0.9,
@@ -63,29 +65,27 @@ class _HomeBodyState extends State<HomeBody> {
                                     ),
                                     items: gv.imgList
                                         .map((item) => Container(
-                                              child: Container(
-                                                margin: EdgeInsets.all(7.5),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.all(Radius.circular(getProportionateScreenWidth(10))),
-                                                  child: CachedNetworkImage(
-                                                      imageUrl: item,
-                                                      progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox(
-                                                            width: getProportionateScreenWidth(6),
-                                                            height: getProportionateScreenWidth(6),
-                                                            child: Center(
-                                                              child: CircularProgressIndicator(
-                                                                value: downloadProgress.progress,
-                                                                strokeWidth: 5,
-                                                                color: PrimaryLightColor,
-                                                                backgroundColor: CardBackgroundColor,
-                                                              ),
+                                              margin: const EdgeInsets.all(7.5),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.all(Radius.circular(getProportionateScreenWidth(10))),
+                                                child: CachedNetworkImage(
+                                                    imageUrl: item,
+                                                    progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox(
+                                                          width: getProportionateScreenWidth(6),
+                                                          height: getProportionateScreenWidth(6),
+                                                          child: Center(
+                                                            child: CircularProgressIndicator(
+                                                              value: downloadProgress.progress,
+                                                              strokeWidth: 5,
+                                                              color: PrimaryLightColor,
+                                                              backgroundColor: CardBackgroundColor,
                                                             ),
                                                           ),
-                                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                                      fit: BoxFit.cover,
-                                                      placeholderFadeInDuration: Duration.zero,
-                                                      width: double.infinity),
-                                                ),
+                                                        ),
+                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                    fit: BoxFit.cover,
+                                                    placeholderFadeInDuration: Duration.zero,
+                                                    width: double.infinity),
                                               ),
                                             ))
                                         .toList(),
@@ -96,9 +96,9 @@ class _HomeBodyState extends State<HomeBody> {
                                   SizedBox(height: getProportionateScreenWidth(30))
                                 ],
                               );
+                            } else {
+                              return const HomeShimmer();
                             }
-                            if (snapshot.connectionState == ConnectionState.waiting) return homeShimmer();
-                            return Container();
                           });
                     });
                   } else {
@@ -106,7 +106,7 @@ class _HomeBodyState extends State<HomeBody> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                        Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
                           Icon(
                             Icons.warning_amber_rounded,
                             color: SecondaryColor,
@@ -117,12 +117,12 @@ class _HomeBodyState extends State<HomeBody> {
                             style: TextStyle(fontSize: 16, color: SecondaryColor, fontFamily: 'PantonBoldItalic'),
                           ),
                         ]),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         IconButton(
                           onPressed: () => setState(() {}),
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.replay_circle_filled,
                             color: PrimaryColor,
                           ),
@@ -131,11 +131,9 @@ class _HomeBodyState extends State<HomeBody> {
                       ],
                     );
                   }
+                } else {
+                  return const HomeShimmer();
                 }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return homeShimmer();
-                }
-                return Container();
               }),
         ),
       ),

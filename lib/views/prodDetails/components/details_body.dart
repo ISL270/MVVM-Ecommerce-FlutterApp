@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import '../../../view_models/globalVariables_viewModel.dart';
+import '../../../view_models/global_vars_view_model.dart';
 import '../../../models/product.dart';
 import '../../../utils/size_config.dart';
 import '../../../utils/constants.dart';
@@ -7,8 +9,8 @@ import 'product_description.dart';
 import 'top_rounded_container.dart';
 import 'product_images.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../../view_models/user_info_viewModel.dart';
-import '../../../view_models/auth_viewModel.dart';
+import '../../../view_models/user_info_view_model.dart';
+import '../../../view_models/auth_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
@@ -30,17 +32,17 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     user = context.read<AuthViewModel>().CurrentUser();
-    final user_info_viewModel u = user_info_viewModel(uid: user.uid);
+    final UserInfoViewModel u = UserInfoViewModel(uid: user.uid);
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(top: 13),
-        child: Consumer<globalVars>(builder: (_, gv, __) {
+        child: Consumer<GlobalVars>(builder: (_, gv, __) {
           return FloatingActionButton(
             heroTag: UniqueKey(),
             mini: true,
-            backgroundColor: Color(0xfff6f8f8),
+            backgroundColor: const Color(0xfff6f8f8),
             onPressed: () async {
               if (gv.UserInfo != null && gv.UserInfo.containsKey('Favorites') && gv.UserInfo['Favorites'].contains(widget.product.id)) {
                 u.removeFromFavs(widget.product.id);
@@ -57,7 +59,7 @@ class _BodyState extends State<Body> {
           );
         }),
       ),
-      body: Consumer<globalVars>(builder: (_, gv, __) {
+      body: Consumer<GlobalVars>(builder: (_, gv, __) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -68,7 +70,7 @@ class _BodyState extends State<Body> {
             Flexible(
               flex: 6,
               child: TopRoundedContainer(
-                color: Color(0xfff6f8f8),
+                color: const Color(0xfff6f8f8),
                 child: Column(
                   children: [
                     Flexible(
@@ -113,7 +115,7 @@ class _BodyState extends State<Body> {
                             Flexible(
                               flex: 10,
                               child: TopRoundedContainer(
-                                color: Color(0xfff6f8f8),
+                                color: const Color(0xfff6f8f8),
                                 child: Padding(
                                   padding: EdgeInsets.only(
                                     left: getProportionateScreenWidth(30),
@@ -121,7 +123,7 @@ class _BodyState extends State<Body> {
                                     bottom: getProportionateScreenHeight(35),
                                     top: getProportionateScreenHeight(12),
                                   ),
-                                  child: Consumer<globalVars>(builder: (_, gv, __) {
+                                  child: Consumer<GlobalVars>(builder: (_, gv, __) {
                                     return buildTextWithIcon(gv, u);
                                   }),
                                 ),
@@ -141,7 +143,7 @@ class _BodyState extends State<Body> {
     );
   }
 
-  void onPressedIconWithText(globalVars gv, user_info_viewModel u) async {
+  void onPressedIconWithText(GlobalVars gv, UserInfoViewModel u) async {
     setState(() {
       stateTextWithIcon = ButtonState.loading;
     });
@@ -160,7 +162,7 @@ class _BodyState extends State<Body> {
           setState(() {
             stateTextWithIcon = ButtonState.success;
           });
-          Future.delayed(Duration(milliseconds: 1500), () {
+          Future.delayed(const Duration(milliseconds: 1500), () {
             if (!mounted) return;
             setState(() {
               stateTextWithIcon = ButtonState.idle;
@@ -170,7 +172,7 @@ class _BodyState extends State<Body> {
           setState(() {
             stateTextWithIcon = ButtonState.fail;
           });
-          Future.delayed(Duration(milliseconds: 1500), () {
+          Future.delayed(const Duration(milliseconds: 1500), () {
             if (!mounted) return;
             setState(() {
               stateTextWithIcon = ButtonState.idle;
@@ -178,13 +180,13 @@ class _BodyState extends State<Body> {
           });
         }
       } catch (e) {
-        return e;
+        log(e);
       }
     } else {
       setState(() {
         stateTextWithIcon = ButtonState.ExtraState1;
       });
-      Future.delayed(Duration(milliseconds: 1500), () {
+      Future.delayed(const Duration(milliseconds: 1500), () {
         if (!mounted) return;
         setState(() {
           stateTextWithIcon = ButtonState.idle;
@@ -193,12 +195,12 @@ class _BodyState extends State<Body> {
     }
   }
 
-  Widget buildTextWithIcon(globalVars gv, user_info_viewModel u) {
+  Widget buildTextWithIcon(GlobalVars gv, UserInfoViewModel u) {
     return ProgressButton.icon(
         height: getProportionateScreenHeight(63),
         radius: 20.0,
-        textStyle: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
-        iconedButtons: {
+        textStyle: const TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
+        iconedButtons: const {
           ButtonState.idle: IconedButton(
               text: 'Add to Cart',
               icon: Icon(
@@ -239,19 +241,19 @@ class _BodyState extends State<Body> {
         padding: const EdgeInsets.only(left: 6, right: 6),
         child: AnimatedContainer(
           duration: defaultDuration,
-          margin: EdgeInsets.only(right: 15),
-          padding: EdgeInsets.all(8),
+          margin: const EdgeInsets.only(right: 15),
+          padding: const EdgeInsets.all(8),
           height: getProportionateScreenWidth(48),
           width: getProportionateScreenWidth(48),
           decoration: BoxDecoration(
-            color: Color(0xfff6f8f8),
+            color: const Color(0xfff6f8f8),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: PrimaryColor.withOpacity(size == s ? 1 : 0)),
           ),
           child: Center(
             child: Text(
               s,
-              style: TextStyle(color: SecondaryColorDark, fontSize: 15, fontFamily: 'PantonBoldItalic'),
+              style: const TextStyle(color: SecondaryColorDark, fontSize: 15, fontFamily: 'PantonBoldItalic'),
             ),
           ),
         ),

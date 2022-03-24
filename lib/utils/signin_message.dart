@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';
-import '../../../views/sign_in/SignInScreen.dart';
+import '../views/sign_in/signin_screen.dart';
 
 class SignInMessage extends StatefulWidget {
   const SignInMessage({Key key}) : super(key: key);

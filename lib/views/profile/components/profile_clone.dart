@@ -3,9 +3,9 @@ import '../../../utils/size_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class profClone extends StatelessWidget {
+class ProfileClone extends StatelessWidget {
   final User u;
-  const profClone({Key key, this.u}) : super(key: key);
+  const ProfileClone({Key key, this.u}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class profClone extends StatelessWidget {
           flex: 2,
           child: Container(
             padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(30), horizontal: getProportionateScreenWidth(25)),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: PrimaryLightColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(35),
@@ -87,11 +87,11 @@ ElevatedButton ProfButton(String label, IconData icon) {
             '   $label',
             style: TextStyle(color: SecondaryColorDark, fontFamily: 'PantonBoldItalic', fontSize: getProportionateScreenWidth(15.5)),
           ),
-          Icon(
+          const Icon(
             Icons.arrow_forward_ios,
             color: SecondaryColorDark,
           ),
         ],
       ),
-      style: ElevatedButton.styleFrom(padding: EdgeInsets.all(21), primary: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
+      style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(21), primary: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
 }

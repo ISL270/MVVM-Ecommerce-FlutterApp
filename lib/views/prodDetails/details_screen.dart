@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../utils/constants.dart';
 import '../../../models/product.dart';
-import 'components/detailsBody.dart';
+import 'components/details_body.dart';
 
 class DetailsScreen extends StatelessWidget {
   static String routeName = '/details';
+
+  const DetailsScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class DetailsScreen extends StatelessWidget {
             child: FloatingActionButton(
               heroTag: UniqueKey(),
               mini: true,
-              backgroundColor: Color(0xfff6f8f8),
+              backgroundColor: const Color(0xfff6f8f8),
               onPressed: () => Navigator.pop(context),
               child: SvgPicture.asset(
                 'assets/icons/Back ICon.svg',

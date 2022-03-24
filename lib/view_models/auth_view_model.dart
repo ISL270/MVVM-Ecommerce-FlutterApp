@@ -1,5 +1,6 @@
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../../view_models/user_info_viewModel.dart';
+import 'user_info_view_model.dart';
 
 class AuthViewModel {
   final FirebaseAuth _firebaseAuth;
@@ -22,52 +23,52 @@ class AuthViewModel {
   }
 
   Future<UserCredential> signIn({String email, String password}) async {
+    UserCredential userCredential;
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      return userCredential;
+      userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        log('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        log('Wrong password provided for that user.');
       }
     }
+    return userCredential;
   }
 
   Future<UserCredential> signUp({String email, String password, String fullName, String phoneNumber, String governorate, String address}) async {
+    UserCredential userCredential;
     if (_firebaseAuth.currentUser.isAnonymous) {
       try {
         AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
-        UserCredential result = await _firebaseAuth.currentUser.linkWithCredential(credential);
-        User user = result.user;
-
-        await user_info_viewModel(uid: user.uid).addUserData(fullName, phoneNumber, governorate, address);
-        return result;
+        userCredential = await _firebaseAuth.currentUser.linkWithCredential(credential);
+        User user = userCredential.user;
+        await UserInfoViewModel(uid: user.uid).addUserData(fullName, phoneNumber, governorate, address);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
+          log('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+          log('The account already exists for that email.');
         }
       } catch (e) {
-        print(e);
+        log(e);
       }
     } else {
       try {
-        UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-        User user = result.user;
-
-        await user_info_viewModel(uid: user.uid).addUserData(fullName, phoneNumber, governorate, address);
-        return result;
+        userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+        User user = userCredential.user;
+        await UserInfoViewModel(uid: user.uid).addUserData(fullName, phoneNumber, governorate, address);
+        return userCredential;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
+          log('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+          log('The account already exists for that email.');
         }
       } catch (e) {
-        print(e);
+        log(e);
       }
     }
+    return userCredential;
   }
 }

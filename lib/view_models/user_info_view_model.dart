@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class user_info_viewModel {
+class UserInfoViewModel {
   final String uid;
-  user_info_viewModel({this.uid});
+  UserInfoViewModel({this.uid});
 
   final CollectionReference UsersInformation = FirebaseFirestore.instance.collection('UsersInfo');
 

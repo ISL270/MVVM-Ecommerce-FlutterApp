@@ -1,7 +1,8 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../../../utils/signin_message.dart';
-import '../../../view_models/auth_viewModel.dart';
-import '../../../view_models/globalVariables_viewModel.dart';
+import '../../../view_models/auth_view_model.dart';
+import '../../../view_models/global_vars_view_model.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';
 import 'package:provider/provider.dart';
@@ -22,27 +23,27 @@ class CheckoutCard extends StatelessWidget {
       // height: 174,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, -15),
+            offset: const Offset(0, -15),
             blurRadius: 20,
-            color: Color(0xFFDADADA).withOpacity(0.95),
+            color: const Color(0xFFDADADA).withOpacity(0.95),
           )
         ],
       ),
-      child: Consumer<globalVars>(builder: (_, gv, __) {
+      child: Consumer<GlobalVars>(builder: (_, gv, __) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text.rich(
               TextSpan(
                 text: 'Total:\n',
-                style: TextStyle(color: SecondaryColorDark, fontSize: 12, fontFamily: 'PantonBoldItalic'),
+                style: const TextStyle(color: SecondaryColorDark, fontSize: 12, fontFamily: 'PantonBoldItalic'),
                 children: [
                   TextSpan(
                     text: '${gv.total} EGP',
-                    style: TextStyle(color: PrimaryColor, fontSize: 20, fontFamily: 'PantonBoldItalic'),
+                    style: const TextStyle(color: PrimaryColor, fontSize: 20, fontFamily: 'PantonBoldItalic'),
                   ),
                 ],
               ),
@@ -63,14 +64,14 @@ class CheckoutCard extends StatelessWidget {
                 onPressed: () {
                   if (gv.userCart.isNotEmpty) {
                     if (context.read<AuthViewModel>().CurrentUser().isAnonymous) {
-                      return showModalBottomSheet(
+                      showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
                           builder: (BuildContext bc) {
                             return Padding(
                               padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                              child: SignInMessage(),
+                              child: const SignInMessage(),
                             );
                           });
                     } else {
@@ -83,7 +84,7 @@ class CheckoutCard extends StatelessWidget {
                           });
                     }
                   } else {
-                    print('Cart is empty');
+                    log('Cart is empty');
                   }
                 },
               ),

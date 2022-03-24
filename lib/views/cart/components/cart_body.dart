@@ -5,22 +5,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../utils/size_config.dart';
 import 'cart_card.dart';
 import '../../../utils/constants.dart';
-import '../../../view_models/auth_viewModel.dart';
-import '../../../view_models/globalVariables_viewModel.dart';
+import '../../../view_models/auth_view_model.dart';
+import '../../../view_models/global_vars_view_model.dart';
 
-class cartBody extends StatefulWidget {
+class CartBody extends StatefulWidget {
+  const CartBody({Key key}) : super(key: key);
+
   @override
-  cartBodyState createState() => cartBodyState();
+  CartBodyState createState() => CartBodyState();
 }
 
-class cartBodyState extends State<cartBody> {
+class CartBodyState extends State<CartBody> {
   Future futureCart;
   User u;
 
   @override
   void initState() {
     u = Provider.of<AuthViewModel>(context, listen: false).CurrentUser();
-    futureCart = Provider.of<globalVars>(context, listen: false).getUserCart(u);
+    futureCart = Provider.of<GlobalVars>(context, listen: false).getUserCart(u);
     super.initState();
   }
 
@@ -28,23 +30,23 @@ class cartBodyState extends State<cartBody> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-      child: Consumer<globalVars>(builder: (_, gv, __) {
+      child: Consumer<GlobalVars>(builder: (_, gv, __) {
         return FutureBuilder(
           future: futureCart,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (gv.userCart.isNotEmpty) {
                 return SingleChildScrollView(
-                  physics: ScrollPhysics(),
+                  physics: const ScrollPhysics(),
                   child: Column(
                     children: [
                       SizedBox(height: getProportionateScreenHeight(22)),
                       ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: gv.userCart.length,
                         itemBuilder: (context, index) => Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Dismissible(
                             key: UniqueKey(),
                             direction: DismissDirection.endToStart,
@@ -55,14 +57,14 @@ class cartBodyState extends State<cartBody> {
                               gv.DeleteItemFromCart(u, index);
                             },
                             background: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
                               decoration: BoxDecoration(
-                                color: Color(0xFFFFE6E6),
+                                color: const Color(0xFFFFE6E6),
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Row(
                                 children: [
-                                  Spacer(),
+                                  const Spacer(),
                                   SvgPicture.asset('assets/icons/Trash.svg'),
                                 ],
                               ),
@@ -88,7 +90,7 @@ class cartBodyState extends State<cartBody> {
                         height: getProportionateScreenWidth(70),
                       ),
                       SizedBox(height: getProportionateScreenHeight(20)),
-                      Text(
+                      const Text(
                         'Your Cart is Empty',
                         style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                       )
@@ -96,8 +98,7 @@ class cartBodyState extends State<cartBody> {
                   ),
                 );
               }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting)
+            } else {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -110,15 +111,14 @@ class cartBodyState extends State<cartBody> {
                       height: getProportionateScreenWidth(70),
                     ),
                     SizedBox(height: getProportionateScreenHeight(20)),
-                    Text(
+                    const Text(
                       'Your Cart is Empty',
                       style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                     )
                   ],
                 ),
               );
-
-            return Container();
+            }
           },
         );
       }),

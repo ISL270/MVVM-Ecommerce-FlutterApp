@@ -1,13 +1,14 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import '../../../models/cartItem.dart';
+import '../models/cart_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class globalVars with ChangeNotifier {
-  globalVars._privateConstructor();
-  static final globalVars _instance = globalVars._privateConstructor();
-  factory globalVars() {
+class GlobalVars with ChangeNotifier {
+  GlobalVars._privateConstructor();
+  static final GlobalVars _instance = GlobalVars._privateConstructor();
+  factory GlobalVars() {
     return _instance;
   }
 
@@ -83,7 +84,7 @@ class globalVars with ChangeNotifier {
         }
       }
     } else {
-      print('No Products');
+      log('No Products');
     }
   }
 
@@ -127,7 +128,7 @@ class globalVars with ChangeNotifier {
         _Orders.add(temp);
       }
     } else {
-      print('No Orders');
+      log('No Orders');
     }
     _Orders.sort((a, b) => b['Date&Time'].compareTo(a['Date&Time']));
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/size_config.dart';
-import '../../../../view_models/globalVariables_viewModel.dart';
+import '../../../../view_models/global_vars_view_model.dart';
 import 'package:provider/provider.dart';
-import '../../../../view_models/auth_viewModel.dart';
+import '../../../../view_models/auth_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'process_timeline.dart';
@@ -12,6 +12,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class OrdersScreen extends StatefulWidget {
   static String routeName = '/orders';
+
+  const OrdersScreen({Key key}) : super(key: key);
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
@@ -39,7 +41,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
       appBar: AppBar(
         elevation: 5,
         shadowColor: SecondaryColorDark.withOpacity(0.2),
-        iconTheme: IconThemeData(color: SecondaryColorDark),
+        iconTheme: const IconThemeData(color: SecondaryColorDark),
         title: Text(
           'My Orders',
           style: TextStyle(
@@ -56,23 +58,22 @@ class _OrdersScreenState extends State<OrdersScreen> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (_connection == true) {
-                return Consumer<globalVars>(builder: (_, gv, __) {
+                return Consumer<GlobalVars>(builder: (_, gv, __) {
                   return FutureBuilder(
                       future: gv.getUserOrders(args.ordersID),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
-                          return ListView.builder(padding: EdgeInsets.only(bottom: 25), itemCount: gv.Orders.length, itemBuilder: (context, index) => orderContainer(gv, index));
-                        }
-                        if (snapshot.connectionState == ConnectionState.waiting)
+                          return ListView.builder(padding: const EdgeInsets.only(bottom: 25), itemCount: gv.Orders.length, itemBuilder: (context, index) => orderContainer(gv, index));
+                        } else {
                           return Center(
-                            child: Container(
+                            child: SizedBox(
                                 height: getProportionateScreenWidth(40),
                                 width: getProportionateScreenWidth(40),
-                                child: CircularProgressIndicator(
+                                child: const CircularProgressIndicator(
                                   color: SecondaryColorDark,
                                 )),
                           );
-                        return Container();
+                        }
                       });
                 });
               } else {
@@ -80,7 +81,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
                       Icon(
                         Icons.warning_amber_rounded,
                         color: SecondaryColor,
@@ -91,12 +92,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         style: TextStyle(fontSize: 16, color: SecondaryColor, fontFamily: 'PantonBoldItalic'),
                       ),
                     ]),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     IconButton(
                       onPressed: () => setState(() {}),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.replay_circle_filled,
                         color: PrimaryColor,
                       ),
@@ -105,27 +106,25 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ],
                 );
               }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting)
+            } else {
               return Center(
-                child: Container(
+                child: SizedBox(
                     height: getProportionateScreenWidth(40),
                     width: getProportionateScreenWidth(40),
-                    child: CircularProgressIndicator(
+                    child: const CircularProgressIndicator(
                       color: SecondaryColorDark,
                     )),
               );
-            return Container();
+            }
           }),
     );
   }
 
-  Widget orderContainer(globalVars gv, int Oindex) {
+  Widget orderContainer(GlobalVars gv, int Oindex) {
     return Container(
         width: double.infinity,
-        margin: EdgeInsets.only(right: 25, left: 25, top: 25),
-        //padding: EdgeInsets.all(25),
-        decoration: BoxDecoration(color: CardBackgroundColor, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [
+        margin: const EdgeInsets.only(right: 25, left: 25, top: 25),
+        decoration: const BoxDecoration(color: CardBackgroundColor, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [
           BoxShadow(
             blurRadius: 18,
             color: Color(0xFFDADADA),
@@ -134,7 +133,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 25, right: 25, top: 25),
+              padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +147,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     DateFormat.yMMMd().add_jm().format(gv.Orders[Oindex]['Date&Time'].toDate()).toString(),
                     style: TextStyle(fontSize: getProportionateScreenWidth(12)),
                   ),
-                  Divider(
+                  const Divider(
                     thickness: 2,
                   ),
                   ConstrainedBox(
@@ -168,7 +167,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               ),
                               leading: Stack(alignment: Alignment.bottomRight, children: [
                                 Container(
-                                  padding: EdgeInsets.all(3.5),
+                                  padding: const EdgeInsets.all(3.5),
                                   height: getProportionateScreenWidth(50),
                                   width: getProportionateScreenWidth(50),
                                   decoration: BoxDecoration(
@@ -193,14 +192,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         ),
                                       ),
                                     ),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                   ),
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 1.5, horizontal: 4.0),
                                     child: RichText(
                                         text: TextSpan(style: TextStyle(fontSize: getProportionateScreenWidth(14), fontFamily: 'PantonBoldItalic', color: PrimaryColor), children: <TextSpan>[
-                                      TextSpan(text: "${gv.Orders[Oindex]["cart"][index]["quantity"].toString()}"),
+                                      TextSpan(text: gv.Orders[Oindex]['cart'][index]['quantity'].toString()),
                                       TextSpan(text: 'x', style: TextStyle(fontSize: getProportionateScreenWidth(9))),
                                     ])))
                               ]),
@@ -210,7 +209,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               ),
                             )),
                   ),
-                  Divider(
+                  const Divider(
                     thickness: 2,
                   ),
                   SizedBox(
@@ -218,8 +217,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ),
                   RichText(
                       text: TextSpan(style: TextStyle(fontSize: getProportionateScreenWidth(15), fontFamily: 'PantonBoldItalic', color: SecondaryColorDark), children: <TextSpan>[
-                    TextSpan(text: 'Total :   '),
-                    TextSpan(text: "${gv.Orders[Oindex]["Total"].toString()}", style: TextStyle(color: PrimaryColor)),
+                    const TextSpan(text: 'Total :   '),
+                    TextSpan(text: gv.Orders[Oindex]['Total'].toString(), style: const TextStyle(color: PrimaryColor)),
                     TextSpan(text: 'EGP', style: TextStyle(color: PrimaryColor, fontSize: getProportionateScreenWidth(11))),
                   ])),
                 ],

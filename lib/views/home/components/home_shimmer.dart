@@ -3,13 +3,13 @@ import '../../../utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class homeShimmer extends StatelessWidget {
-  const homeShimmer({Key key}) : super(key: key);
+class HomeShimmer extends StatelessWidget {
+  const HomeShimmer({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-        baseColor: Color(0xfff6f6f6),
+        baseColor: const Color(0xfff6f6f6),
         highlightColor: Colors.grey.shade400,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -91,7 +91,7 @@ class homeShimmer extends StatelessWidget {
                     3,
                     (index) {
                       return Padding(
-                        padding: EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 20),
                         child: Container(
                           width: getProportionateScreenWidth(140),
                           height: getProportionateScreenWidth(140),
@@ -141,7 +141,7 @@ class homeShimmer extends StatelessWidget {
                     3,
                     (index) {
                       return Padding(
-                        padding: EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 20),
                         child: Container(
                           width: getProportionateScreenWidth(140),
                           height: getProportionateScreenWidth(140),

@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
-import '../../../views/profile/components/orders/ordersScreen.dart';
-import '../../../views/profile/components/userInfo/userInfo.dart';
-import '../../../views/profile/components/profClone.dart';
-import '../../../views/sign_in/SignInScreen.dart';
+import 'components/orders/orders_screen.dart';
+import 'components/userInfo/user_info.dart';
+import 'components/profile_clone.dart';
+import '../sign_in/signin_screen.dart';
 import '../../utils/size_config.dart';
-import '../../view_models/auth_viewModel.dart';
+import '../../view_models/auth_view_model.dart';
 import 'package:provider/provider.dart';
-import '../../view_models/globalVariables_viewModel.dart';
+import '../../view_models/global_vars_view_model.dart';
 import '../../../utils/signin_message.dart';
 
 class ProfileScreen extends StatefulWidget {
   static String routeName = '/profile';
+
+  const ProfileScreen({Key key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -31,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: PrimaryColor,
-      body: Consumer<globalVars>(builder: (_, gv, __) {
+      body: Consumer<GlobalVars>(builder: (_, gv, __) {
         return FutureBuilder(
             future: gv.getUserInfo(u),
             builder: (context, snapshot) {
@@ -72,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       flex: 2,
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(30), horizontal: getProportionateScreenWidth(25)),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: PrimaryLightColor,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(35),
@@ -90,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     builder: (BuildContext bc) {
                                       return Padding(
                                         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                        child: SignInMessage(),
+                                        child: const SignInMessage(),
                                       );
                                     });
                               } else {
@@ -109,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     builder: (BuildContext bc) {
                                       return Padding(
                                         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                        child: SignInMessage(),
+                                        child: const SignInMessage(),
                                       );
                                     });
                               } else {
@@ -126,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ProfButton(u.isAnonymous ? 'Sign-In' : 'Log-Out', u.isAnonymous ? Icons.login : Icons.logout, () {
                               if (u.isAnonymous) {
                                 Navigator.pushNamed(context, SignInScreen.routeName);
-                                Future.delayed(Duration(milliseconds: 700), () {
+                                Future.delayed(const Duration(milliseconds: 700), () {
                                   gv.selectedPage = 0;
                                   gv.prodsBool(false);
                                 });
@@ -134,11 +136,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 context.read<AuthViewModel>().signOut();
                                 Navigator.pushAndRemoveUntil(
                                   context,
-                                  MaterialPageRoute(builder: (context) => SignInScreen()),
+                                  MaterialPageRoute(builder: (context) => const SignInScreen()),
                                   (Route<dynamic> route) => false,
                                 );
 
-                                Future.delayed(Duration(milliseconds: 700), () {
+                                Future.delayed(const Duration(milliseconds: 700), () {
                                   gv.selectedPage = 0;
                                   gv.prodsBool(false);
                                 });
@@ -150,13 +152,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 );
+              } else {
+                return ProfileClone(u: u);
               }
-
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return profClone(u: u);
-              }
-
-              return Container();
             });
       }),
     );
@@ -178,11 +176,11 @@ ElevatedButton ProfButton(String label, IconData icon, Function func) {
             '   $label',
             style: TextStyle(color: SecondaryColorDark, fontFamily: 'PantonBoldItalic', fontSize: getProportionateScreenWidth(15.5)),
           ),
-          Icon(
+          const Icon(
             Icons.arrow_forward_ios,
             color: SecondaryColorDark,
           ),
         ],
       ),
-      style: ElevatedButton.styleFrom(padding: EdgeInsets.all(21), primary: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
+      style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(21), primary: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))));
 }

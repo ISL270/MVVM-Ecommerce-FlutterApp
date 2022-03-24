@@ -1,13 +1,14 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import '../../../views/sign_up/SignUpScreen.dart';
+import '../sign_up/signup_screen.dart';
 import '../../utils/size_config.dart';
 import '../../../utils/form_error.dart';
 import '../../../utils/keyboard.dart';
 import '../../../views/home/home_screen.dart';
 import '../../utils/constants.dart';
-import 'Reset_Password.dart';
+import 'reset_password.dart';
 import '../../../models/social_card.dart';
-import '../../view_models/auth_viewModel.dart';
+import '../../view_models/auth_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:progress_state_button/iconed_button.dart';
@@ -16,6 +17,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SignInScreen extends StatefulWidget {
   static String routeName = '/sign_in';
+
+  const SignInScreen({Key key}) : super(key: key);
   @override
   _SignFormState createState() => _SignFormState();
 }
@@ -61,7 +64,7 @@ class _SignFormState extends State<SignInScreen> {
                   ),
                 ),
                 SizedBox(height: getProportionateScreenWidth(5)),
-                Text(
+                const Text(
                   'Sign in with your email and password \nor sign in with social media',
                   style: TextStyle(fontFamily: 'Panton', color: SecondaryColorDark),
                   textAlign: TextAlign.center,
@@ -85,10 +88,10 @@ class _SignFormState extends State<SignInScreen> {
                               builder: (BuildContext bc) {
                                 return Padding(
                                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                  child: ResetPassBottomSheet(),
+                                  child: const ResetPassBottomSheet(),
                                 );
                               }),
-                          child: Text(
+                          child: const Text(
                             'Forgot Password',
                             style: TextStyle(decoration: TextDecoration.underline, color: SecondaryColorDark, fontSize: 12, fontFamily: 'PantonBold'),
                           ),
@@ -97,43 +100,44 @@ class _SignFormState extends State<SignInScreen> {
                       SizedBox(height: SizeConfig.screenHeight * 0.025),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text(
                             "Don't have an account?",
                             style: TextStyle(color: SecondaryColorDark, fontSize: 14, fontFamily: 'PantonBold'),
                           ),
-                          signUpRedirect(),
+                          SignUpRedirect(),
                         ],
                       ),
                       SizedBox(height: SizeConfig.screenHeight * 0.015),
                       FormError(errors: _errors),
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
                       buildTextWithIcon(),
-                      SizedBox(height: SizeConfig.screenHeight * 0.03),
-                      Divider(
-                        thickness: 2,
-                        endIndent: getProportionateScreenWidth(40),
-                        indent: getProportionateScreenWidth(40),
-                        color: SecondaryColor.withOpacity(0.25),
-                      ),
-                      SizedBox(height: SizeConfig.screenHeight * 0.03),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SocialCard(
-                            icon: 'assets/icons/google-icon.svg',
-                            press: () {},
-                          ),
-                          SocialCard(
-                            icon: 'assets/icons/apple-logo.svg',
-                            press: () {},
-                          ),
-                          SocialCard(
-                            icon: 'assets/icons/facebook-2.svg',
-                            press: () {},
-                          ),
-                        ],
-                      ),
+                      // SizedBox(height: SizeConfig.screenHeight * 0.03),
+                      // Divider(
+                      //   thickness: 2,
+                      //   endIndent: getProportionateScreenWidth(40),
+                      //   indent: getProportionateScreenWidth(40),
+                      //   color: SecondaryColor.withOpacity(0.25),
+                      // ),
+                      // SizedBox(height: SizeConfig.screenHeight * 0.03),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     SocialCard(
+                      //       icon: 'assets/icons/google-icon.svg',
+                      //       press: () {},
+                      //     ),
+                      //     SocialCard(
+                      //       icon: 'assets/icons/apple-logo.svg',
+                      //       press: () {},
+                      //     ),
+                      //     SocialCard(
+                      //       icon: 'assets/icons/facebook-2.svg',
+                      //       press: () {},
+                      //     ),
+                      //   ],
+                      // ),
+                      // SizedBox(height: SizeConfig.screenHeight * 0.045),
                     ],
                   ),
                 ),
@@ -151,7 +155,7 @@ class _SignFormState extends State<SignInScreen> {
     });
     bool connection = await InternetConnectionChecker().hasConnection;
     if (connection == true) {
-      Future.delayed(Duration(milliseconds: 600), () async {
+      Future.delayed(const Duration(milliseconds: 600), () async {
         if (_formKey.currentState.validate()) {
           _formKey.currentState.save();
           try {
@@ -164,28 +168,28 @@ class _SignFormState extends State<SignInScreen> {
               KeyboardUtil.hideKeyboard(context);
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
                 (Route<dynamic> route) => false,
               );
             } else {
               setState(() {
                 _stateTextWithIcon = ButtonState.fail;
               });
-              Future.delayed(Duration(milliseconds: 2000), () {
+              Future.delayed(const Duration(milliseconds: 2000), () {
                 setState(() {
                   _stateTextWithIcon = ButtonState.idle;
                 });
               });
             }
           } catch (e) {
-            print(e);
-            if (this.mounted) {
+            log(e);
+            if (mounted) {
               setState(() {
                 _stateTextWithIcon = ButtonState.fail;
               });
             }
-            Future.delayed(Duration(milliseconds: 2000), () {
-              if (this.mounted) {
+            Future.delayed(const Duration(milliseconds: 2000), () {
+              if (mounted) {
                 setState(() {
                   _stateTextWithIcon = ButtonState.idle;
                 });
@@ -196,7 +200,7 @@ class _SignFormState extends State<SignInScreen> {
           setState(() {
             _stateTextWithIcon = ButtonState.success;
           });
-          Future.delayed(Duration(milliseconds: 2000), () {
+          Future.delayed(const Duration(milliseconds: 2000), () {
             setState(() {
               _stateTextWithIcon = ButtonState.idle;
             });
@@ -207,7 +211,7 @@ class _SignFormState extends State<SignInScreen> {
       setState(() {
         _stateTextWithIcon = ButtonState.ExtraState1;
       });
-      Future.delayed(Duration(milliseconds: 1600), () {
+      Future.delayed(const Duration(milliseconds: 1600), () {
         if (!mounted) return;
         setState(() {
           _stateTextWithIcon = ButtonState.idle;
@@ -221,8 +225,8 @@ class _SignFormState extends State<SignInScreen> {
         height: getProportionateScreenWidth(58),
         maxWidth: getProportionateScreenWidth(400),
         radius: 20.0,
-        textStyle: TextStyle(color: Color(0xffeeecec), fontSize: 17, fontFamily: 'PantonBoldItalic'),
-        iconedButtons: {
+        textStyle: const TextStyle(color: Color(0xffeeecec), fontSize: 17, fontFamily: 'PantonBoldItalic'),
+        iconedButtons: const {
           ButtonState.idle: IconedButton(
               text: 'Continue',
               icon: Icon(
@@ -253,22 +257,16 @@ class _SignFormState extends State<SignInScreen> {
   }
 
   void addError({String error}) {
-    if (!_errors.contains(error))
-      setState(() {
-        _errors.add(error);
-      });
+    if (!_errors.contains(error)) setState(() => _errors.add(error));
   }
 
   void removeError({String error}) {
-    if (_errors.contains(error))
-      setState(() {
-        _errors.remove(error);
-      });
+    if (_errors.contains(error)) setState(() => _errors.remove(error));
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       obscureText: true,
       onSaved: (newValue) => _password = newValue,
       onChanged: (value) {
@@ -283,7 +281,7 @@ class _SignFormState extends State<SignInScreen> {
         if (value.isEmpty) {
           addError(error: PassNullError);
           return '';
-        } else if (value.length < 8 && value.length != 0) {
+        } else if (value.length < 8 && value.isNotEmpty) {
           addError(error: ShortPassError);
           return '';
         }
@@ -308,7 +306,7 @@ class _SignFormState extends State<SignInScreen> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
-      style: TextStyle(fontWeight: FontWeight.w800),
+      style: const TextStyle(fontWeight: FontWeight.w800),
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => _email = newValue,
       onChanged: (value) {
@@ -347,21 +345,21 @@ class _SignFormState extends State<SignInScreen> {
   }
 }
 
-class signUpRedirect extends StatelessWidget {
-  const signUpRedirect({
+class SignUpRedirect extends StatelessWidget {
+  const SignUpRedirect({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: Text(
+      child: const Text(
         'Sign-Up',
         style: TextStyle(color: Color(0xffeeecec), fontSize: 13, fontFamily: 'PantonBoldItalic'),
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(
+            const EdgeInsets.symmetric(
               horizontal: 25,
             ),
           ),
