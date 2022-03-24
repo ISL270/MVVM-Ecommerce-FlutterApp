@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/models/product_card.dart';
-import 'package:ecommerce_app/views/category/categoryScreen.dart';
+import '../../../models/product_card.dart';
+import '../../../views/category/categoryScreen.dart';
 import '../utils/size_config.dart';
 import '../views/home/components/section_title.dart';
 import 'package:provider/provider.dart';
 import '../view_models/globalVariables_viewModel.dart';
 
-class category extends StatelessWidget {
+class Category extends StatelessWidget {
   final String cat;
 
-  category({@required this.cat});
+  const Category({Key key, @required this.cat}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,7 @@ class category extends StatelessWidget {
       children: [
         SizedBox(height: getProportionateScreenWidth(20)),
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(
               title: cat,
               press: () {

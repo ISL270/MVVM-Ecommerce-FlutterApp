@@ -11,7 +11,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class OrdersScreen extends StatefulWidget {
-  static String routeName = "/orders";
+  static String routeName = '/orders';
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
@@ -27,7 +27,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   void initState() {
-    _u = Provider.of<auth_viewModel>(context, listen: false).CurrentUser();
+    _u = Provider.of<AuthViewModel>(context, listen: false).CurrentUser();
     super.initState();
   }
 
@@ -41,7 +41,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         shadowColor: SecondaryColorDark.withOpacity(0.2),
         iconTheme: IconThemeData(color: SecondaryColorDark),
         title: Text(
-          "My Orders",
+          'My Orders',
           style: TextStyle(
             color: SecondaryColorDark,
             fontSize: getProportionateScreenWidth(20),
@@ -61,10 +61,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       future: gv.getUserOrders(args.ordersID),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
-                          return ListView.builder(
-                              padding: EdgeInsets.only(bottom: 25),
-                              itemCount: gv.Orders.length,
-                              itemBuilder: (context, index) => orderContainer(gv, index));
+                          return ListView.builder(padding: EdgeInsets.only(bottom: 25), itemCount: gv.Orders.length, itemBuilder: (context, index) => orderContainer(gv, index));
                         }
                         if (snapshot.connectionState == ConnectionState.waiting)
                           return Center(
@@ -91,8 +88,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       ),
                       Text(
                         '   No Internet Connection',
-                        style: TextStyle(
-                            fontSize: 16, color: SecondaryColor, fontFamily: 'PantonBoldItalic'),
+                        style: TextStyle(fontSize: 16, color: SecondaryColor, fontFamily: 'PantonBoldItalic'),
                       ),
                     ]),
                     SizedBox(
@@ -129,15 +125,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
         width: double.infinity,
         margin: EdgeInsets.only(right: 25, left: 25, top: 25),
         //padding: EdgeInsets.all(25),
-        decoration: BoxDecoration(
-            color: CardBackgroundColor,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 18,
-                color: Color(0xFFDADADA),
-              )
-            ]),
+        decoration: BoxDecoration(color: CardBackgroundColor, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [
+          BoxShadow(
+            blurRadius: 18,
+            color: Color(0xFFDADADA),
+          )
+        ]),
         child: Column(
           children: [
             Padding(
@@ -149,16 +142,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 children: [
                   Text(
                     "Order ID: ${gv.Orders[Oindex]["ID"]}",
-                    style: TextStyle(
-                        color: SecondaryColorDark,
-                        fontSize: getProportionateScreenWidth(13),
-                        fontFamily: 'PantonBoldItalic'),
+                    style: TextStyle(color: SecondaryColorDark, fontSize: getProportionateScreenWidth(13), fontFamily: 'PantonBoldItalic'),
                   ),
                   Text(
-                    DateFormat.yMMMd()
-                        .add_jm()
-                        .format(gv.Orders[Oindex]["Date&Time"].toDate())
-                        .toString(),
+                    DateFormat.yMMMd().add_jm().format(gv.Orders[Oindex]['Date&Time'].toDate()).toString(),
                     style: TextStyle(fontSize: getProportionateScreenWidth(12)),
                   ),
                   Divider(
@@ -169,7 +156,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     child: ListView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
-                        itemCount: (gv.Orders[Oindex]["cart"] as List<dynamic>).length,
+                        itemCount: (gv.Orders[Oindex]['cart'] as List<dynamic>).length,
                         itemBuilder: (context, index) => ListTile(
                               contentPadding: EdgeInsets.zero,
                               title: Text(
@@ -189,16 +176,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: CachedNetworkImage(
-                                    imageUrl: gv
-                                        .getSpecificProd(gv.Orders[Oindex]["cart"][index]["id"])
-                                        .images[0]
-                                        .toString(),
+                                    imageUrl: gv.getSpecificProd(gv.Orders[Oindex]['cart'][index]['id']).images[0].toString(),
                                     memCacheHeight: 200,
                                     memCacheWidth: 200,
                                     maxHeightDiskCache: 200,
                                     maxWidthDiskCache: 200,
-                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                        SizedBox(
+                                    progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox(
                                       width: getProportionateScreenWidth(0.1),
                                       height: getProportionateScreenWidth(0.1),
                                       child: Center(
@@ -214,26 +197,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   ),
                                 ),
                                 Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 1.5, horizontal: 4.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 1.5, horizontal: 4.0),
                                     child: RichText(
-                                        text: TextSpan(
-                                            style: TextStyle(
-                                                fontSize: getProportionateScreenWidth(14),
-                                                fontFamily: 'PantonBoldItalic',
-                                                color: PrimaryColor),
-                                            children: <TextSpan>[
-                                          TextSpan(
-                                              text:
-                                                  "${gv.Orders[Oindex]["cart"][index]["quantity"].toString()}"),
-                                          TextSpan(
-                                              text: "x",
-                                              style: TextStyle(
-                                                  fontSize: getProportionateScreenWidth(9))),
-                                        ])))
+                                        text: TextSpan(style: TextStyle(fontSize: getProportionateScreenWidth(14), fontFamily: 'PantonBoldItalic', color: PrimaryColor), children: <TextSpan>[
+                                      TextSpan(text: "${gv.Orders[Oindex]["cart"][index]["quantity"].toString()}"),
+                                      TextSpan(text: 'x', style: TextStyle(fontSize: getProportionateScreenWidth(9))),
+                                    ])))
                               ]),
                               trailing: Text(
-                                gv.Orders[Oindex]["cart"][index]["total"].toString(),
+                                gv.Orders[Oindex]['cart'][index]['total'].toString(),
                                 style: TextStyle(fontSize: getProportionateScreenWidth(13)),
                               ),
                             )),
@@ -245,21 +217,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     height: getProportionateScreenHeight(5),
                   ),
                   RichText(
-                      text: TextSpan(
-                          style: TextStyle(
-                              fontSize: getProportionateScreenWidth(15),
-                              fontFamily: 'PantonBoldItalic',
-                              color: SecondaryColorDark),
-                          children: <TextSpan>[
-                        TextSpan(text: "Total :   "),
-                        TextSpan(
-                            text: "${gv.Orders[Oindex]["Total"].toString()}",
-                            style: TextStyle(color: PrimaryColor)),
-                        TextSpan(
-                            text: "EGP",
-                            style: TextStyle(
-                                color: PrimaryColor, fontSize: getProportionateScreenWidth(11))),
-                      ])),
+                      text: TextSpan(style: TextStyle(fontSize: getProportionateScreenWidth(15), fontFamily: 'PantonBoldItalic', color: SecondaryColorDark), children: <TextSpan>[
+                    TextSpan(text: 'Total :   '),
+                    TextSpan(text: "${gv.Orders[Oindex]["Total"].toString()}", style: TextStyle(color: PrimaryColor)),
+                    TextSpan(text: 'EGP', style: TextStyle(color: PrimaryColor, fontSize: getProportionateScreenWidth(11))),
+                  ])),
                 ],
               ),
             ),
@@ -267,7 +229,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               padding: const EdgeInsets.only(bottom: 23),
               child: SizedBox(
                 height: getProportionateScreenHeight(80),
-                child: ProcessTimelinePage(gv.Orders[Oindex]["Status"].toString()),
+                child: ProcessTimelinePage(gv.Orders[Oindex]['Status'].toString()),
               ),
             )
           ],

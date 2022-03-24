@@ -22,7 +22,7 @@ class SocialCard extends StatelessWidget {
         padding: EdgeInsets.all(getProportionateScreenWidth(13)),
         height: getProportionateScreenHeight(45),
         width: getProportionateScreenWidth(45),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: CardBackgroundColor,
           shape: BoxShape.circle,
         ),

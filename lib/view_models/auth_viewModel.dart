@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerce_app/view_models/user_info_viewModel.dart';
+import '../../../view_models/user_info_viewModel.dart';
 
-class auth_viewModel {
+class AuthViewModel {
   final FirebaseAuth _firebaseAuth;
 
-  auth_viewModel(this._firebaseAuth);
+  AuthViewModel(this._firebaseAuth);
 
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
 
@@ -23,8 +23,7 @@ class auth_viewModel {
 
   Future<UserCredential> signIn({String email, String password}) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -35,23 +34,14 @@ class auth_viewModel {
     }
   }
 
-  Future<UserCredential> signUp(
-      {String email,
-      String password,
-      String fullName,
-      String phoneNumber,
-      String governorate,
-      String address}) async {
+  Future<UserCredential> signUp({String email, String password, String fullName, String phoneNumber, String governorate, String address}) async {
     if (_firebaseAuth.currentUser.isAnonymous) {
       try {
-        AuthCredential credential =
-            EmailAuthProvider.credential(email: email, password: password);
-        UserCredential result =
-            await _firebaseAuth.currentUser.linkWithCredential(credential);
+        AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+        UserCredential result = await _firebaseAuth.currentUser.linkWithCredential(credential);
         User user = result.user;
 
-        await user_info_viewModel(uid: user.uid)
-            .addUserData(fullName, phoneNumber, governorate, address);
+        await user_info_viewModel(uid: user.uid).addUserData(fullName, phoneNumber, governorate, address);
         return result;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
@@ -64,12 +54,10 @@ class auth_viewModel {
       }
     } else {
       try {
-        UserCredential result = await _firebaseAuth
-            .createUserWithEmailAndPassword(email: email, password: password);
+        UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
         User user = result.user;
 
-        await user_info_viewModel(uid: user.uid)
-            .addUserData(fullName, phoneNumber, governorate, address);
+        await user_info_viewModel(uid: user.uid).addUserData(fullName, phoneNumber, governorate, address);
         return result;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {

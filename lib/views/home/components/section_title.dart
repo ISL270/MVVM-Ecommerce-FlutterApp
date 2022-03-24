@@ -28,11 +28,8 @@ class SectionTitle extends StatelessWidget {
         GestureDetector(
           onTap: press,
           child: Text(
-            "See All",
-            style: TextStyle(
-                color: PrimaryColor,
-                fontFamily: 'PantonBold',
-                fontSize: getProportionateScreenWidth(13)),
+            'See All',
+            style: TextStyle(color: PrimaryColor, fontFamily: 'PantonBold', fontSize: getProportionateScreenWidth(13)),
           ),
         ),
       ],

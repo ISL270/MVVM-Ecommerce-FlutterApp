@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/models/Product.dart';
+import '../../../models/product.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';
 
@@ -19,19 +19,13 @@ class ProductDescription extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: getProportionateScreenWidth(30),
-              vertical: getProportionateScreenWidth(5)),
+          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(30), vertical: getProportionateScreenWidth(5)),
           child: Text(
             product.title,
             maxLines: 3,
             softWrap: false,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: SecondaryColorDark,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'PantonItalic'),
+            style: TextStyle(color: SecondaryColorDark, fontSize: 20, fontWeight: FontWeight.w600, fontFamily: 'PantonItalic'),
           ),
         ),
         Padding(
@@ -44,11 +38,8 @@ class ProductDescription extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  product.price.toString() + " EGP",
-                  style: TextStyle(
-                      color: PrimaryColor,
-                      fontSize: 18,
-                      fontFamily: 'PantonBoldItalic'),
+                  product.price.toString() + ' EGP',
+                  style: TextStyle(color: PrimaryColor, fontSize: 18, fontFamily: 'PantonBoldItalic'),
                 ),
               ],
             ),

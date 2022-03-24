@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/view_models/globalVariables_viewModel.dart';
-import 'package:ecommerce_app/models/Product.dart';
-import 'package:ecommerce_app/utils/size_config.dart';
-import 'package:ecommerce_app/utils/constants.dart';
+import '../../../view_models/globalVariables_viewModel.dart';
+import '../../../models/product.dart';
+import '../../../utils/size_config.dart';
+import '../../../utils/constants.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
 import 'product_images.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerce_app/view_models/user_info_viewModel.dart';
-import 'package:ecommerce_app/view_models/auth_viewModel.dart';
+import '../../../view_models/user_info_viewModel.dart';
+import '../../../view_models/auth_viewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
@@ -29,7 +29,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    user = context.read<auth_viewModel>().CurrentUser();
+    user = context.read<AuthViewModel>().CurrentUser();
     final user_info_viewModel u = user_info_viewModel(uid: user.uid);
 
     return Scaffold(
@@ -42,9 +42,7 @@ class _BodyState extends State<Body> {
             mini: true,
             backgroundColor: Color(0xfff6f8f8),
             onPressed: () async {
-              if (gv.UserInfo != null &&
-                  gv.UserInfo.containsKey("Favorites") &&
-                  gv.UserInfo["Favorites"].contains(widget.product.id)) {
+              if (gv.UserInfo != null && gv.UserInfo.containsKey('Favorites') && gv.UserInfo['Favorites'].contains(widget.product.id)) {
                 u.removeFromFavs(widget.product.id);
                 gv.removeFromFavs(widget.product.id);
               } else {
@@ -53,11 +51,7 @@ class _BodyState extends State<Body> {
               }
             },
             child: Icon(
-              gv.UserInfo == null ||
-                      !gv.UserInfo.containsKey("Favorites") ||
-                      !gv.UserInfo["Favorites"].contains(widget.product.id)
-                  ? Icons.favorite_border_outlined
-                  : Icons.favorite,
+              gv.UserInfo == null || !gv.UserInfo.containsKey('Favorites') || !gv.UserInfo['Favorites'].contains(widget.product.id) ? Icons.favorite_border_outlined : Icons.favorite,
               color: PrimaryColor,
             ),
           );
@@ -93,32 +87,27 @@ class _BodyState extends State<Body> {
                           children: [
                             Flexible(
                               flex: 5,
-                              child:
-                                  gv.AllProds['Shoes'].contains(widget.product)
-                                      ? Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            buildSizeOptions("36"),
-                                            buildSizeOptions("39"),
-                                            buildSizeOptions("42"),
-                                            buildSizeOptions("45"),
-                                          ],
-                                        )
-                                      : Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            buildSizeOptions("S"),
-                                            buildSizeOptions("M"),
-                                            buildSizeOptions("L"),
-                                            buildSizeOptions("XL"),
-                                          ],
-                                        ),
+                              child: gv.AllProds['Shoes'].contains(widget.product)
+                                  ? Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        buildSizeOptions('36'),
+                                        buildSizeOptions('39'),
+                                        buildSizeOptions('42'),
+                                        buildSizeOptions('45'),
+                                      ],
+                                    )
+                                  : Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        buildSizeOptions('S'),
+                                        buildSizeOptions('M'),
+                                        buildSizeOptions('L'),
+                                        buildSizeOptions('XL'),
+                                      ],
+                                    ),
                             ),
                             //ColorDots(product: product),
                             Flexible(
@@ -132,8 +121,7 @@ class _BodyState extends State<Body> {
                                     bottom: getProportionateScreenHeight(35),
                                     top: getProportionateScreenHeight(12),
                                   ),
-                                  child: Consumer<globalVars>(
-                                      builder: (_, gv, __) {
+                                  child: Consumer<globalVars>(builder: (_, gv, __) {
                                     return buildTextWithIcon(gv, u);
                                   }),
                                 ),
@@ -179,7 +167,6 @@ class _BodyState extends State<Body> {
             });
           });
         } else {
-          print("Already in Cart");
           setState(() {
             stateTextWithIcon = ButtonState.fail;
           });
@@ -210,32 +197,27 @@ class _BodyState extends State<Body> {
     return ProgressButton.icon(
         height: getProportionateScreenHeight(63),
         radius: 20.0,
-        textStyle: TextStyle(
-            color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
+        textStyle: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
         iconedButtons: {
           ButtonState.idle: IconedButton(
-              text: "Add to Cart",
+              text: 'Add to Cart',
               icon: Icon(
                 Icons.add_rounded,
                 size: 0.01,
                 color: PrimaryColor,
               ),
               color: PrimaryColor),
-          ButtonState.loading:
-              IconedButton(text: "Loading", color: PrimaryColor),
-          ButtonState.fail: IconedButton(
-              text: "Already in cart",
-              icon: Icon(Icons.cancel, color: Colors.white),
-              color: PrimaryColor),
+          ButtonState.loading: IconedButton(text: 'Loading', color: PrimaryColor),
+          ButtonState.fail: IconedButton(text: 'Already in cart', icon: Icon(Icons.cancel, color: Colors.white), color: PrimaryColor),
           ButtonState.success: IconedButton(
-              text: "Added successfully",
+              text: 'Added successfully',
               icon: Icon(
                 Icons.check_circle,
                 color: Colors.white,
               ),
               color: PrimaryColor),
           ButtonState.ExtraState1: IconedButton(
-              text: "Connection Lost",
+              text: 'Connection Lost',
               icon: Icon(
                 Icons.cancel,
                 color: Colors.white,
@@ -264,16 +246,12 @@ class _BodyState extends State<Body> {
           decoration: BoxDecoration(
             color: Color(0xfff6f8f8),
             borderRadius: BorderRadius.circular(10),
-            border:
-                Border.all(color: PrimaryColor.withOpacity(size == s ? 1 : 0)),
+            border: Border.all(color: PrimaryColor.withOpacity(size == s ? 1 : 0)),
           ),
           child: Center(
             child: Text(
               s,
-              style: TextStyle(
-                  color: SecondaryColorDark,
-                  fontSize: 15,
-                  fontFamily: 'PantonBoldItalic'),
+              style: TextStyle(color: SecondaryColorDark, fontSize: 15, fontFamily: 'PantonBoldItalic'),
             ),
           ),
         ),

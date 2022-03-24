@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/utils/constants.dart';
+import '../../../utils/constants.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'components/body.dart';
-import 'package:ecommerce_app/utils/size_config.dart';
-import 'package:ecommerce_app/views/favourites/Favs_screen.dart';
-import 'package:ecommerce_app/views/cart/cart_screen.dart';
-import 'package:ecommerce_app/views/profile/profile_screen.dart';
-import 'package:ecommerce_app/view_models/globalVariables_viewModel.dart';
+import '../../../utils/size_config.dart';
+import '../../../views/favourites/Favs_screen.dart';
+import '../../../views/cart/cart_screen.dart';
+import '../../../views/profile/profile_screen.dart';
+import '../../../view_models/globalVariables_viewModel.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  static String routeName = "/home";
+  static String routeName = '/home';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -44,33 +44,17 @@ class _HomeScreenState extends State<HomeScreen> {
               activeColor: PrimaryColor,
               reverse: true,
               items: [
-                TitledNavigationBarItem(
-                    icon: Icons.home_outlined,
-                    title: Text("Home",
-                        style: TextStyle(fontFamily: "PantonBold"))),
-                TitledNavigationBarItem(
-                    icon: Icons.favorite_border_outlined,
-                    title: Text("Favourites",
-                        style: TextStyle(
-                            fontSize: getProportionateScreenWidth(13),
-                            fontFamily: "PantonBold"))),
-                TitledNavigationBarItem(
-                    icon: Icons.shopping_cart_outlined,
-                    title: Text("Cart",
-                        style: TextStyle(fontFamily: "PantonBold"))),
-                TitledNavigationBarItem(
-                    icon: Icons.person_outline_rounded,
-                    title: Text("ProfIle",
-                        style: TextStyle(fontFamily: "PantonBold"))),
+                TitledNavigationBarItem(icon: Icons.home_outlined, title: Text('Home', style: TextStyle(fontFamily: 'PantonBold'))),
+                TitledNavigationBarItem(icon: Icons.favorite_border_outlined, title: Text('Favourites', style: TextStyle(fontSize: getProportionateScreenWidth(13), fontFamily: 'PantonBold'))),
+                TitledNavigationBarItem(icon: Icons.shopping_cart_outlined, title: Text('Cart', style: TextStyle(fontFamily: 'PantonBold'))),
+                TitledNavigationBarItem(icon: Icons.person_outline_rounded, title: Text('ProfIle', style: TextStyle(fontFamily: 'PantonBold'))),
               ],
               currentIndex: gv.selectedPage,
               onTap: (index) => _onItemTapped(gv, index),
             ),
             Container(
               color: Colors.white,
-              height: Theme.of(context).platform == TargetPlatform.iOS
-                  ? getProportionateScreenWidth(16)
-                  : 0,
+              height: Theme.of(context).platform == TargetPlatform.iOS ? getProportionateScreenWidth(16) : 0,
             )
           ],
         ),

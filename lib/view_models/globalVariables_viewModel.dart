@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/models/cartItem.dart';
+import '../../../models/cartItem.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerce_app/models/Product.dart';
+import '../../../models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class globalVars with ChangeNotifier {
@@ -11,20 +11,15 @@ class globalVars with ChangeNotifier {
     return _instance;
   }
 
-  final CollectionReference OrdersRef =
-      FirebaseFirestore.instance.collection('Orders');
+  final CollectionReference OrdersRef = FirebaseFirestore.instance.collection('Orders');
 
-  final CollectionReference UsersInformation =
-      FirebaseFirestore.instance.collection('UsersInfo');
+  final CollectionReference UsersInformation = FirebaseFirestore.instance.collection('UsersInfo');
 
-  final DocumentReference ClothingInformation =
-      FirebaseFirestore.instance.collection('Products').doc('Clothing');
+  final DocumentReference ClothingInformation = FirebaseFirestore.instance.collection('Products').doc('Clothing');
 
-  final CollectionReference ProductsInformation =
-      FirebaseFirestore.instance.collection('Products');
+  final CollectionReference ProductsInformation = FirebaseFirestore.instance.collection('Products');
 
-  final DocumentReference HomeImgsRef =
-      FirebaseFirestore.instance.collection('HomeImages').doc('Home_Images');
+  final DocumentReference HomeImgsRef = FirebaseFirestore.instance.collection('HomeImages').doc('Home_Images');
 
   List<dynamic> _CartProds;
 
@@ -40,7 +35,7 @@ class globalVars with ChangeNotifier {
 
   bool _cartLoaded = false;
 
-  List<cartItem> _userCart = [];
+  List<CartItem> _userCart = [];
 
   List<String> _FavsList = [];
 
@@ -50,7 +45,7 @@ class globalVars with ChangeNotifier {
 
   int _shippingPrice = 40;
 
-  String _paymentMethod = "Select Method";
+  String _paymentMethod = 'Select Method';
 
   List<String> _imgList = [];
 
@@ -62,23 +57,16 @@ class globalVars with ChangeNotifier {
   Future getAllCategories() async {
     DocumentSnapshot doc = await ClothingInformation.get();
     _categories = List<String>.from(doc.get('Categories'));
-    print(_categories);
   }
 
   Future getAllProds() async {
     _AllProds.clear();
     await getAllCategories();
     for (int i = 0; i < _categories.length; i++) {
-      QuerySnapshot qSnapshot =
-          await ClothingInformation.collection(_categories[i]).get();
+      QuerySnapshot qSnapshot = await ClothingInformation.collection(_categories[i]).get();
       List<Product> catProds = [];
       for (int j = 0; j < qSnapshot.docs.length; j++) {
-        catProds.add(Product(
-            id: qSnapshot.docs[j].id,
-            images: qSnapshot.docs[j]['images'],
-            colors: qSnapshot.docs[j]['Colors'],
-            title: qSnapshot.docs[j]['Title'],
-            price: qSnapshot.docs[j]['Price']));
+        catProds.add(Product(id: qSnapshot.docs[j].id, images: qSnapshot.docs[j]['images'], colors: qSnapshot.docs[j]['Colors'], title: qSnapshot.docs[j]['Title'], price: qSnapshot.docs[j]['Price']));
       }
       _AllProds[_categories[i]] = catProds;
     }
@@ -95,7 +83,7 @@ class globalVars with ChangeNotifier {
         }
       }
     } else {
-      print("No Products");
+      print('No Products');
     }
   }
 
@@ -104,25 +92,13 @@ class globalVars with ChangeNotifier {
     await getAllProds();
     for (int i = 0; i < CartProds.length; i++) {
       Product tempProd = getSpecificProd(CartProds[i]['id']);
-      print(tempProd);
-      _userCart.add(cartItem(
-          product: Product(
-              id: tempProd.id,
-              images: tempProd.images,
-              colors: tempProd.colors,
-              title: tempProd.title,
-              price: tempProd.price),
-          quantity: CartProds[i]['quantity'],
-          option1: CartProds[i]['option1'],
-          uid: tempProd.id + CartProds[i]['option1']));
+      _userCart.add(CartItem(product: Product(id: tempProd.id, images: tempProd.images, colors: tempProd.colors, title: tempProd.title, price: tempProd.price), quantity: CartProds[i]['quantity'], option1: CartProds[i]['option1'], uid: tempProd.id + CartProds[i]['option1']));
     }
-    print(_userCart);
   }
 
   Future getUserCart(User u) async {
     DocumentSnapshot documentSnapshot = await UsersInformation.doc(u.uid).get();
     _CartProds = documentSnapshot.get('cart');
-    print(_CartProds);
     await fillCartList(_CartProds);
     TotalPrice();
   }
@@ -130,7 +106,6 @@ class globalVars with ChangeNotifier {
   Future getUserInfo(User u) async {
     DocumentSnapshot documentSnapshot = await UsersInformation.doc(u.uid).get();
     _UserInfo = documentSnapshot.data();
-    print(_UserInfo);
   }
 
   Future DeleteItemFromCart(User u, int index) async {
@@ -148,18 +123,17 @@ class globalVars with ChangeNotifier {
       for (int i = 0; i < ordersID.length; i++) {
         DocumentSnapshot oSnapshot = await OrdersRef.doc(ordersID[i]).get();
         Map<String, dynamic> temp = oSnapshot.data();
-        temp["ID"] = oSnapshot.id;
+        temp['ID'] = oSnapshot.id;
         _Orders.add(temp);
       }
     } else {
-      print("No Orders");
+      print('No Orders');
     }
-    _Orders.sort((a, b) => b["Date&Time"].compareTo(a["Date&Time"]));
+    _Orders.sort((a, b) => b['Date&Time'].compareTo(a['Date&Time']));
   }
 
   void addToUserCart(Product p, int quantity, String option1) {
-    _userCart.add(cartItem(
-        product: p, quantity: quantity, option1: option1, uid: p.id + option1));
+    _userCart.add(CartItem(product: p, quantity: quantity, option1: option1, uid: p.id + option1));
     notifyListeners();
     TotalPrice();
   }
@@ -201,7 +175,7 @@ class globalVars with ChangeNotifier {
   }
 
   void resetPmethod() {
-    _paymentMethod = "Select Method";
+    _paymentMethod = 'Select Method';
     notifyListeners();
   }
 
@@ -217,16 +191,12 @@ class globalVars with ChangeNotifier {
     notifyListeners();
   }
 
-  Future addCartItems(User u, List<cartItem> c) async {
+  Future addCartItems(User u, List<CartItem> c) async {
     for (int i = 0; i < c.length; i++) {
       Map map = new Map<String, dynamic>();
       return await UsersInformation.doc(u.uid).set({
         'cart': FieldValue.arrayUnion([
-          map = {
-            "id": c[i].product.id,
-            "option1": c[i].option1,
-            "quantity": c[i].quantity
-          }
+          map = {'id': c[i].product.id, 'option1': c[i].option1, 'quantity': c[i].quantity}
         ]),
       }, SetOptions(merge: true));
     }
@@ -243,10 +213,10 @@ class globalVars with ChangeNotifier {
   }
 
   void addToFavs(String id) {
-    _UserInfo != null && _UserInfo.containsKey("Favorites")
+    _UserInfo != null && _UserInfo.containsKey('Favorites')
         ? _UserInfo['Favorites'].add(id)
         : _UserInfo = {
-            "Favorites": [id]
+            'Favorites': [id]
           };
     notifyListeners();
   }
@@ -258,7 +228,7 @@ class globalVars with ChangeNotifier {
 
   int get total => _total;
 
-  List<cartItem> get userCart => _userCart;
+  List<CartItem> get userCart => _userCart;
 
   get CartProds => _CartProds;
 

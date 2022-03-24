@@ -1,13 +1,13 @@
-import 'package:ecommerce_app/models/Product.dart';
+import '../../../models/product.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/utils/constants.dart';
-import 'package:ecommerce_app/utils/size_config.dart';
-import 'package:ecommerce_app/models/product_card.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/size_config.dart';
+import '../../../models/product_card.dart';
 import 'package:provider/provider.dart';
-import 'package:ecommerce_app/view_models/globalVariables_viewModel.dart';
+import '../../../view_models/globalVariables_viewModel.dart';
 
 class SearchScreen extends StatelessWidget {
-  static String routeName = "/search";
+  static String routeName = '/search';
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,7 @@ class SearchScreen extends StatelessWidget {
 
         gv.AllProds.forEach((key, value) {
           value.forEach((element) {
-            if (element.title
-                .toUpperCase()
-                .contains(args.keyword.toUpperCase())) {
+            if (element.title.toUpperCase().contains(args.keyword.toUpperCase())) {
               _searchList.add(element);
             }
           });
@@ -45,12 +43,7 @@ class SearchScreen extends StatelessWidget {
         return _searchList.isNotEmpty
             ? GridView.count(
                 padding: EdgeInsets.all(getProportionateScreenWidth(25)),
-                childAspectRatio:
-                    Theme.of(context).platform == TargetPlatform.iOS
-                        ? MediaQuery.of(context).size.width /
-                            (MediaQuery.of(context).size.height / 1.5)
-                        : MediaQuery.of(context).size.width /
-                            (MediaQuery.of(context).size.height / 1.35),
+                childAspectRatio: Theme.of(context).platform == TargetPlatform.iOS ? MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.5) : MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.35),
                 crossAxisSpacing: getProportionateScreenWidth(25),
                 crossAxisCount: 2,
                 children: List.generate(
@@ -73,11 +66,8 @@ class SearchScreen extends StatelessWidget {
                     ),
                     SizedBox(height: getProportionateScreenHeight(10)),
                     Text(
-                      "No Products Found",
-                      style: TextStyle(
-                          fontFamily: 'Panton',
-                          color: SecondaryColor,
-                          fontWeight: FontWeight.w900),
+                      'No Products Found',
+                      style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                     )
                   ],
                 ),

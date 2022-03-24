@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ecommerce_app/utils/constants.dart';
-import 'package:ecommerce_app/views/category/categoryScreen.dart';
+import '../../../utils/constants.dart';
+import '../../../views/category/categoryScreen.dart';
 import '../../../utils/size_config.dart';
 
 class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
-      {"icon": "assets/icons/tshirt.svg", "text": "Tshirts"},
-      {"icon": "assets/icons/hoodie.svg", "text": "Hoodies"},
-      {"icon": "assets/icons/jacket_1.svg", "text": "Jackets"},
-      {"icon": "assets/icons/jeans.svg", "text": "Pants"},
-      {"icon": "assets/icons/sneaker.svg", "text": "Shoes"},
+      {'icon': 'assets/icons/tshirt.svg', 'text': 'Tshirts'},
+      {'icon': 'assets/icons/hoodie.svg', 'text': 'Hoodies'},
+      {'icon': 'assets/icons/jacket_1.svg', 'text': 'Jackets'},
+      {'icon': 'assets/icons/jeans.svg', 'text': 'Pants'},
+      {'icon': 'assets/icons/sneaker.svg', 'text': 'Shoes'},
     ];
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
@@ -22,14 +22,13 @@ class Categories extends StatelessWidget {
         children: List.generate(
           categories.length,
           (index) => CategoryCard(
-            icon: categories[index]["icon"],
-            text: categories[index]["text"],
+            icon: categories[index]['icon'],
+            text: categories[index]['text'],
             press: () {
               Navigator.pushNamed(
                 context,
                 CategoryScreen.routeName,
-                arguments: CategoryDetailsArguments(
-                    category: categories[index]["text"]),
+                arguments: CategoryDetailsArguments(category: categories[index]['text']),
               );
             },
           ),
@@ -75,10 +74,7 @@ class CategoryCard extends StatelessWidget {
             Text(
               text,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: 'PantonBold',
-                  fontSize: getProportionateScreenWidth(10),
-                  color: SecondaryColorDark),
+              style: TextStyle(fontFamily: 'PantonBold', fontSize: getProportionateScreenWidth(10), color: SecondaryColorDark),
             )
           ],
         ),

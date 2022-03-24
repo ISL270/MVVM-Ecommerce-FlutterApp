@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/utils/constants.dart';
-import 'package:ecommerce_app/utils/size_config.dart';
-import 'package:ecommerce_app/utils/form_error.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/size_config.dart';
+import '../../../utils/form_error.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
@@ -27,9 +26,7 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
         horizontal: 30,
         vertical: 30,
       ),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
@@ -43,10 +40,7 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
                   onChanged: (value) {
                     if (value.isNotEmpty && _errors.contains(EmailNullError)) {
                       _errors.remove(EmailNullError);
-                    } else if (value.isEmpty &&
-                            _errors.contains(InvalidEmailError) ||
-                        emailValidatorRegExp.hasMatch(value) &&
-                            _errors.contains(InvalidEmailError)) {
+                    } else if (value.isEmpty && _errors.contains(InvalidEmailError) || emailValidatorRegExp.hasMatch(value) && _errors.contains(InvalidEmailError)) {
                       _errors.remove(InvalidEmailError);
                     }
                     return null;
@@ -54,22 +48,18 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
                   validator: (value) {
                     if (value.isEmpty && !_errors.contains(EmailNullError)) {
                       _errors.add(EmailNullError);
-                      return "";
-                    } else if (!emailValidatorRegExp.hasMatch(value) &&
-                        !_errors.contains(InvalidEmailError)) {
+                      return '';
+                    } else if (!emailValidatorRegExp.hasMatch(value) && !_errors.contains(InvalidEmailError)) {
                       _errors.add(InvalidEmailError);
-                      return "";
+                      return '';
                     }
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText: "Enter your email",
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: getProportionateScreenWidth(19),
-                        horizontal: getProportionateScreenWidth(30)),
+                    hintText: 'Enter your email',
+                    contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(19), horizontal: getProportionateScreenWidth(30)),
                     suffixIcon: Padding(
-                      padding: EdgeInsets.only(
-                          right: getProportionateScreenWidth(26)),
+                      padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
                       child: Icon(
                         Icons.email_outlined,
                         size: getProportionateScreenWidth(28),
@@ -149,35 +139,33 @@ class _ResetPassBottomSheetState extends State<ResetPassBottomSheet> {
         height: getProportionateScreenWidth(58),
         maxWidth: getProportionateScreenWidth(400),
         radius: 20.0,
-        textStyle: TextStyle(
-            color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
+        textStyle: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'PantonBoldItalic'),
         iconedButtons: {
           ButtonState.idle: IconedButton(
-              text: "Reset Password",
+              text: 'Reset Password',
               icon: Icon(
                 Icons.add_rounded,
                 size: 0.01,
                 color: PrimaryColor,
               ),
               color: PrimaryColor),
-          ButtonState.loading:
-              IconedButton(text: "Loading", color: PrimaryColor),
+          ButtonState.loading: IconedButton(text: 'Loading', color: PrimaryColor),
           ButtonState.fail: IconedButton(
-              text: "Connection Lost",
+              text: 'Connection Lost',
               icon: Icon(
                 Icons.cancel,
                 color: Colors.white,
               ),
               color: PrimaryColor),
           ButtonState.success: IconedButton(
-              text: "Emial Sent",
+              text: 'Emial Sent',
               icon: Icon(
                 Icons.check_circle,
                 color: Colors.white,
               ),
               color: Colors.green.shade400),
           ButtonState.ExtraState1: IconedButton(
-              text: "Invalid Input",
+              text: 'Invalid Input',
               icon: Icon(
                 Icons.cancel,
                 color: Colors.white,

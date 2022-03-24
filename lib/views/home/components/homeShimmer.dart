@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/utils/constants.dart';
-import 'package:ecommerce_app/utils/size_config.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -16,8 +16,7 @@ class homeShimmer extends StatelessWidget {
           children: [
             SizedBox(height: getProportionateScreenHeight(15)),
             Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20)),
+              margin: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
               width: double.infinity,
               height: getProportionateScreenWidth(45),
               decoration: BoxDecoration(
@@ -27,8 +26,7 @@ class homeShimmer extends StatelessWidget {
             ),
             SizedBox(height: getProportionateScreenWidth(26)),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20)),
+              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,20 +49,17 @@ class homeShimmer extends StatelessWidget {
             ),
             SizedBox(height: getProportionateScreenWidth(46)),
             Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20)),
+              margin: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
               width: double.infinity,
               height: getProportionateScreenWidth(205),
               decoration: BoxDecoration(
                 color: PrimaryColor.withOpacity(0.2),
-                borderRadius: BorderRadius.all(
-                    Radius.circular(getProportionateScreenWidth(10))),
+                borderRadius: BorderRadius.all(Radius.circular(getProportionateScreenWidth(10))),
               ),
             ),
             SizedBox(height: getProportionateScreenWidth(31)),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20)),
+              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -73,8 +68,7 @@ class homeShimmer extends StatelessWidget {
                     height: getProportionateScreenWidth(17),
                     decoration: BoxDecoration(
                       color: PrimaryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(getProportionateScreenWidth(5))),
+                      borderRadius: BorderRadius.all(Radius.circular(getProportionateScreenWidth(5))),
                     ),
                   ),
                   Container(
@@ -82,8 +76,7 @@ class homeShimmer extends StatelessWidget {
                     height: getProportionateScreenWidth(15),
                     decoration: BoxDecoration(
                       color: PrimaryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(getProportionateScreenWidth(5))),
+                      borderRadius: BorderRadius.all(Radius.circular(getProportionateScreenWidth(5))),
                     ),
                   )
                 ],
@@ -116,8 +109,7 @@ class homeShimmer extends StatelessWidget {
             ),
             SizedBox(height: getProportionateScreenWidth(65)),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20)),
+              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -126,8 +118,7 @@ class homeShimmer extends StatelessWidget {
                     height: getProportionateScreenWidth(18),
                     decoration: BoxDecoration(
                       color: PrimaryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(getProportionateScreenWidth(5))),
+                      borderRadius: BorderRadius.all(Radius.circular(getProportionateScreenWidth(5))),
                     ),
                   ),
                   Container(
@@ -135,8 +126,7 @@ class homeShimmer extends StatelessWidget {
                     height: getProportionateScreenWidth(15),
                     decoration: BoxDecoration(
                       color: PrimaryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(getProportionateScreenWidth(5))),
+                      borderRadius: BorderRadius.all(Radius.circular(getProportionateScreenWidth(5))),
                     ),
                   )
                 ],

@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/views/home/components/searchScreen.dart';
+import '../../../views/home/components/searchScreen.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';
@@ -20,21 +20,12 @@ class searchBar extends StatelessWidget {
         textInputAction: TextInputAction.search,
         onSubmitted: (value) {
           Navigator.pushNamed(
-                context,
-                SearchScreen.routeName,
-                arguments: SearchKeyword(
-                    keyword: value),
-              );
+            context,
+            SearchScreen.routeName,
+            arguments: SearchKeyword(keyword: value),
+          );
         },
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(20),
-                vertical: getProportionateScreenWidth(9)),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            hintText: "Search product",
-            prefixIcon: Icon(Icons.search)),
+        decoration: InputDecoration(contentPadding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20), vertical: getProportionateScreenWidth(9)), border: InputBorder.none, focusedBorder: InputBorder.none, enabledBorder: InputBorder.none, hintText: 'Search product', prefixIcon: Icon(Icons.search)),
       ),
     );
   }

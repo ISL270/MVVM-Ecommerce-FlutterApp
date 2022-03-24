@@ -21,9 +21,9 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
   int _processIndex = 1;
 
   void getStatus(String status) {
-    if (status == "Ordered") {
+    if (status == 'Ordered') {
       _processIndex = 1;
-    } else if (status == "Processed") {
+    } else if (status == 'Processed') {
       _processIndex = 2;
     } else {
       _processIndex = 3;
@@ -217,9 +217,7 @@ class _BezierPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_BezierPainter oldDelegate) {
-    return oldDelegate.color != color ||
-        oldDelegate.drawStart != drawStart ||
-        oldDelegate.drawEnd != drawEnd;
+    return oldDelegate.color != color || oldDelegate.drawStart != drawStart || oldDelegate.drawEnd != drawEnd;
   }
 }
 

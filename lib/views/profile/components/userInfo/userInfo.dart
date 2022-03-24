@@ -3,17 +3,17 @@ import '../../../../view_models/globalVariables_viewModel.dart';
 import '../../../../utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ecommerce_app/utils/keyboard.dart';
-import 'package:ecommerce_app/view_models/user_info_viewModel.dart';
+import '../../../../utils/keyboard.dart';
+import '../../../../view_models/user_info_viewModel.dart';
 import '../../../../view_models/auth_viewModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerce_app/utils/form_error.dart';
+import '../../../../utils/form_error.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class UserInfoScreen extends StatefulWidget {
-  static String routeName = "/userInfo";
+  static String routeName = '/userInfo';
   @override
   State<UserInfoScreen> createState() => _UserInfoScreenState();
 }
@@ -32,9 +32,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   void initState() {
-    _u = Provider.of<auth_viewModel>(context, listen: false).CurrentUser();
-    _futureUserInfo =
-        Provider.of<globalVars>(context, listen: false).getUserInfo(_u);
+    _u = Provider.of<AuthViewModel>(context, listen: false).CurrentUser();
+    _futureUserInfo = Provider.of<globalVars>(context, listen: false).getUserInfo(_u);
     super.initState();
   }
 
@@ -49,7 +48,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           shadowColor: SecondaryColorDark.withOpacity(0.2),
           iconTheme: IconThemeData(color: SecondaryColorDark),
           title: Text(
-            "My Details",
+            'My Details',
             style: TextStyle(
               color: SecondaryColorDark,
               fontSize: getProportionateScreenWidth(20),
@@ -75,70 +74,41 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenWidth(20)),
+                          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
                           child: Column(
                             children: [
-                              SizedBox(
-                                  height:
-                                      getProportionateScreenHeight(33)), // 4%
+                              SizedBox(height: getProportionateScreenHeight(33)), // 4%
                               Form(
                                 key: _formKey,
                                 child: Column(
                                   children: [
                                     buildEmailFormField(_email),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(30)),
+                                    SizedBox(height: getProportionateScreenHeight(30)),
                                     buildFullNameFormField(_fullName),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(30)),
+                                    SizedBox(height: getProportionateScreenHeight(30)),
                                     buildPhoneNumberFormField(_phoneNumber),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(30)),
+                                    SizedBox(height: getProportionateScreenHeight(30)),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Governorate:",
+                                          'Governorate:',
                                           style: TextStyle(
                                             fontFamily: 'PantonBoldItalic',
                                             color: SecondaryColorDark,
-                                            fontSize:
-                                                SizeConfig.screenWidth * 0.046,
+                                            fontSize: SizeConfig.screenWidth * 0.046,
                                           ),
                                         ),
-                                        Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(18.0),
-                                                border: Border.all(
-                                                    color: SecondaryColorDark,
-                                                    width: 2.8)),
-                                            child: buildGovDropdown(
-                                                gv.UserInfo['Governorate'])),
+                                        Container(padding: EdgeInsets.symmetric(horizontal: 15), decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.0), border: Border.all(color: SecondaryColorDark, width: 2.8)), child: buildGovDropdown(gv.UserInfo['Governorate'])),
                                       ],
                                     ),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(30)),
+                                    SizedBox(height: getProportionateScreenHeight(30)),
                                     buildAddressFormField(_address),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(20)),
+                                    SizedBox(height: getProportionateScreenHeight(20)),
                                     FormError(errors: _errors),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(20)),
+                                    SizedBox(height: getProportionateScreenHeight(20)),
                                     buildTextWithIcon(),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(35)),
+                                    SizedBox(height: getProportionateScreenHeight(35)),
                                   ],
                                 ),
                               ),
@@ -179,8 +149,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           _formKey.currentState.save();
           try {
             KeyboardUtil.hideKeyboard(context);
-            await user_info_viewModel(uid: _u.uid)
-                .addUserData(_fullName, _phoneNumber, _selectedGov, _address);
+            await user_info_viewModel(uid: _u.uid).addUserData(_fullName, _phoneNumber, _selectedGov, _address);
             setState(() {
               _stateTextWithIcon = ButtonState.success;
             });
@@ -227,34 +196,27 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         height: getProportionateScreenWidth(60),
         maxWidth: getProportionateScreenWidth(400),
         radius: 20.0,
-        textStyle: TextStyle(
-            color: Color(0xffeeecec),
-            fontSize: getProportionateScreenWidth(20),
-            fontFamily: 'PantonBoldItalic'),
+        textStyle: TextStyle(color: Color(0xffeeecec), fontSize: getProportionateScreenWidth(20), fontFamily: 'PantonBoldItalic'),
         iconedButtons: {
           ButtonState.idle: IconedButton(
-              text: "Apply",
+              text: 'Apply',
               icon: Icon(
                 Icons.add_rounded,
                 size: 0.01,
                 color: PrimaryColor,
               ),
               color: PrimaryColor),
-          ButtonState.loading:
-              IconedButton(text: "Loading", color: PrimaryColor),
-          ButtonState.fail: IconedButton(
-              text: "Invalid Input",
-              icon: Icon(Icons.cancel, color: Colors.white),
-              color: PrimaryColor),
+          ButtonState.loading: IconedButton(text: 'Loading', color: PrimaryColor),
+          ButtonState.fail: IconedButton(text: 'Invalid Input', icon: Icon(Icons.cancel, color: Colors.white), color: PrimaryColor),
           ButtonState.success: IconedButton(
-              text: "applied successfully",
+              text: 'applied successfully',
               icon: Icon(
                 Icons.check_circle,
                 color: Colors.white,
               ),
               color: Colors.green.shade400),
           ButtonState.ExtraState1: IconedButton(
-              text: "Connection Lost",
+              text: 'Connection Lost',
               icon: Icon(
                 Icons.cancel,
                 color: Colors.white,
@@ -268,17 +230,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   TextFormField buildEmailFormField(String LabelText) {
     return TextFormField(
       enableInteractiveSelection: false,
-      style: TextStyle(
-          fontWeight: FontWeight.w900,
-          fontSize: getProportionateScreenWidth(16),
-          color: Color(0xff5c5e5e)),
+      style: TextStyle(fontWeight: FontWeight.w900, fontSize: getProportionateScreenWidth(16), color: Color(0xff5c5e5e)),
       initialValue: LabelText,
       readOnly: true,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -297,15 +254,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       onSaved: (newValue) => newValue.isEmpty ? _address : _address = newValue,
       decoration: InputDecoration(
         labelText: LabelText,
-        labelStyle: TextStyle(
-            fontWeight: FontWeight.w900,
-            color: Color(0xff5c5e5e),
-            fontSize: getProportionateScreenWidth(14)),
+        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(14)),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.only(
-            top: getProportionateScreenWidth(20),
-            bottom: getProportionateScreenWidth(20),
-            left: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.only(top: getProportionateScreenWidth(20), bottom: getProportionateScreenWidth(20), left: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(24)),
           child: Icon(
@@ -322,8 +273,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     return TextFormField(
       style: TextStyle(fontWeight: FontWeight.w800),
       keyboardType: TextInputType.phone,
-      onSaved: (newValue) =>
-          newValue.isEmpty ? _phoneNumber : _phoneNumber = newValue,
+      onSaved: (newValue) => newValue.isEmpty ? _phoneNumber : _phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty && phoneNumValidatorRegExp.hasMatch(value)) {
           removeError(error: InvalidPhoneNumError);
@@ -333,20 +283,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       validator: (value) {
         if (value.isNotEmpty && !phoneNumValidatorRegExp.hasMatch(value)) {
           addError(error: InvalidPhoneNumError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
         labelText: LabelText,
-        labelStyle: TextStyle(
-            fontWeight: FontWeight.w900,
-            color: Color(0xff5c5e5e),
-            fontSize: getProportionateScreenWidth(16)),
+        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(16)),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -362,8 +307,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   TextFormField buildFullNameFormField(String LabelText) {
     return TextFormField(
       style: TextStyle(fontWeight: FontWeight.w800),
-      onSaved: (newValue) =>
-          newValue.isEmpty ? _fullName : _fullName = newValue,
+      onSaved: (newValue) => newValue.isEmpty ? _fullName : _fullName = newValue,
       onChanged: (value) {
         if (value.isNotEmpty && nameValidatorRegExp.hasMatch(value)) {
           removeError(error: InvalidNameError);
@@ -373,20 +317,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       validator: (value) {
         if (value.isNotEmpty && !nameValidatorRegExp.hasMatch(value)) {
           addError(error: InvalidNameError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
         labelText: LabelText,
-        labelStyle: TextStyle(
-            fontWeight: FontWeight.w900,
-            color: Color(0xff5c5e5e),
-            fontSize: getProportionateScreenWidth(16)),
+        labelStyle: TextStyle(fontWeight: FontWeight.w900, color: Color(0xff5c5e5e), fontSize: getProportionateScreenWidth(16)),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -414,9 +353,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   DropdownButton buildGovDropdown(String userGov) {
     return DropdownButton<String>(
-        value: (_selectedGov == null || _selectedGov.isEmpty)
-            ? _selectedGov = userGov
-            : _selectedGov,
+        value: (_selectedGov == null || _selectedGov.isEmpty) ? _selectedGov = userGov : _selectedGov,
         items: getDropdownItems(),
         onChanged: (value) {
           setState(() {

@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/utils/form_error.dart';
-import 'package:ecommerce_app/views/home/home_screen.dart';
+import '../../../utils/form_error.dart';
+import '../../../views/home/home_screen.dart';
 import '../../utils/constants.dart';
 import '../../utils/size_config.dart';
 import '../../view_models/auth_viewModel.dart';
@@ -9,11 +8,11 @@ import 'package:provider/provider.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerce_app/utils/keyboard.dart';
+import '../../../utils/keyboard.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SignUpScreen extends StatefulWidget {
-  static String routeName = "/sign_up";
+  static String routeName = '/sign_up';
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -32,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() async {
-    await auth_viewModel(FirebaseAuth.instance).AnonymousOrCurrent();
+    await AuthViewModel(FirebaseAuth.instance).AnonymousOrCurrent();
     super.initState();
   }
 
@@ -43,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Sign Up",
+            'Sign Up',
             style: TextStyle(
               color: SecondaryColor,
               fontSize: getProportionateScreenWidth(20),
@@ -56,13 +55,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: SizedBox(
             width: double.infinity,
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(22)),
+              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(22)),
               child: Column(
                 children: [
                   SizedBox(height: getProportionateScreenWidth(45)),
                   Text(
-                    "Register Account",
+                    'Register Account',
                     style: TextStyle(
                       color: SecondaryColorDark,
                       fontSize: getProportionateScreenWidth(25),
@@ -71,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   SizedBox(height: getProportionateScreenWidth(5)),
                   Text(
-                    "Fill all details to create your account",
+                    'Fill all details to create your account',
                     style: TextStyle(fontFamily: 'Panton'),
                     textAlign: TextAlign.center,
                   ),
@@ -94,20 +92,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Governorate:",
+                              'Governorate:',
                               style: TextStyle(
                                 fontFamily: 'PantonBoldItalic',
                                 color: SecondaryColorDark,
                                 fontSize: SizeConfig.screenWidth * 0.046,
                               ),
                             ),
-                            Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    border: Border.all(
-                                        color: SecondaryColorDark, width: 2.8)),
-                                child: buildGovDropdown()),
+                            Container(padding: EdgeInsets.symmetric(horizontal: 15), decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.0), border: Border.all(color: SecondaryColorDark, width: 2.8)), child: buildGovDropdown()),
                           ],
                         ),
                         SizedBox(height: getProportionateScreenHeight(30)),
@@ -140,15 +132,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _formKey.currentState.save();
           try {
             //await context.read<auth_viewModel>().signOut();
-            await context.read<auth_viewModel>().signUp(
-                email: _email,
-                password: _password,
-                fullName: _fullName,
-                phoneNumber: _phoneNumber,
-                governorate: _selectedGov,
-                address: _address);
+            await context.read<AuthViewModel>().signUp(email: _email, password: _password, fullName: _fullName, phoneNumber: _phoneNumber, governorate: _selectedGov, address: _address);
 
-            User user = context.read<auth_viewModel>().CurrentUser();
+            User user = context.read<AuthViewModel>().CurrentUser();
 
             if (user != null) {
               KeyboardUtil.hideKeyboard(context);
@@ -157,7 +143,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 MaterialPageRoute(builder: (context) => HomeScreen()),
                 (Route<dynamic> route) => false,
               );
-              print("----------${user.email}----------");
             } else {
               setState(() {
                 _stateTextWithIcon = ButtonState.fail;
@@ -208,34 +193,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
         height: getProportionateScreenWidth(58),
         maxWidth: getProportionateScreenWidth(400),
         radius: 20.0,
-        textStyle: TextStyle(
-            color: Color(0xffeeecec),
-            fontSize: 18,
-            fontFamily: 'PantonBoldItalic'),
+        textStyle: TextStyle(color: Color(0xffeeecec), fontSize: 18, fontFamily: 'PantonBoldItalic'),
         iconedButtons: {
           ButtonState.idle: IconedButton(
-              text: "Continue",
+              text: 'Continue',
               icon: Icon(
                 Icons.add_rounded,
                 size: 0.01,
                 color: PrimaryColor,
               ),
               color: PrimaryColor),
-          ButtonState.loading:
-              IconedButton(text: "Loading", color: PrimaryColor),
-          ButtonState.fail: IconedButton(
-              text: "email already exists",
-              icon: Icon(Icons.cancel, color: Colors.white),
-              color: PrimaryColor),
+          ButtonState.loading: IconedButton(text: 'Loading', color: PrimaryColor),
+          ButtonState.fail: IconedButton(text: 'email already exists', icon: Icon(Icons.cancel, color: Colors.white), color: PrimaryColor),
           ButtonState.success: IconedButton(
-              text: "Invalid Input",
+              text: 'Invalid Input',
               icon: Icon(
                 Icons.cancel,
                 color: Colors.white,
               ),
               color: PrimaryColor),
           ButtonState.ExtraState1: IconedButton(
-              text: "Connection Lost",
+              text: 'Connection Lost',
               icon: Icon(
                 Icons.cancel,
                 color: Colors.white,
@@ -293,29 +271,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
       validator: (value) {
         if (value.isEmpty) {
           addError(error: PassNullError);
-          return "";
+          return '';
         } else if (!passwordValidatorRegExp.hasMatch(value)) {
           addError(error: InvalidPassError);
-          return "";
+          return '';
         } else if (value.length < 8 && value.length != 0) {
           addError(error: ShortPassError);
-          return "";
+          return '';
         } else if (_password != value) {
           addError(error: MatchPassError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
-        labelStyle: TextStyle(
-            fontFamily: 'PantonBold',
-            color: SecondaryColorDark.withOpacity(0.5),
-            fontWeight: FontWeight.w100),
-        labelText: "Password",
+        labelStyle: TextStyle(fontFamily: 'PantonBold', color: SecondaryColorDark.withOpacity(0.5), fontWeight: FontWeight.w100),
+        labelText: 'Password',
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -343,20 +316,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       validator: (value) {
         if (_password != value) {
           addError(error: MatchPassError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
-        labelStyle: TextStyle(
-            fontFamily: 'PantonBold',
-            color: SecondaryColorDark.withOpacity(0.5),
-            fontWeight: FontWeight.w100),
-        labelText: "CONFIRM Password",
+        labelStyle: TextStyle(fontFamily: 'PantonBold', color: SecondaryColorDark.withOpacity(0.5), fontWeight: FontWeight.w100),
+        labelText: 'CONFIRM Password',
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -385,23 +353,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       validator: (value) {
         if (value.isEmpty) {
           addError(error: EmailNullError);
-          return "";
+          return '';
         } else if (value.isNotEmpty && !emailValidatorRegExp.hasMatch(value)) {
           addError(error: InvalidEmailError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
-        labelStyle: TextStyle(
-            fontFamily: 'PantonBold',
-            color: SecondaryColorDark.withOpacity(0.5),
-            fontWeight: FontWeight.w100),
-        labelText: "E-mail",
+        labelStyle: TextStyle(fontFamily: 'PantonBold', color: SecondaryColorDark.withOpacity(0.5), fontWeight: FontWeight.w100),
+        labelText: 'E-mail',
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -427,20 +390,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       validator: (value) {
         if (value.isEmpty) {
           addError(error: AddressNullError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
-        labelStyle: TextStyle(
-            fontFamily: 'PantonBold',
-            color: SecondaryColorDark.withOpacity(0.5),
-            fontWeight: FontWeight.w100),
-        labelText: "Address",
+        labelStyle: TextStyle(fontFamily: 'PantonBold', color: SecondaryColorDark.withOpacity(0.5), fontWeight: FontWeight.w100),
+        labelText: 'Address',
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -469,23 +427,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       validator: (value) {
         if (value.isEmpty) {
           addError(error: PhoneNumberNullError);
-          return "";
+          return '';
         } else if (!phoneNumValidatorRegExp.hasMatch(value)) {
           addError(error: InvalidPhoneNumError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
-        labelStyle: TextStyle(
-            fontFamily: 'PantonBold',
-            color: SecondaryColorDark.withOpacity(0.5),
-            fontWeight: FontWeight.w100),
-        labelText: "Phone Number",
+        labelStyle: TextStyle(fontFamily: 'PantonBold', color: SecondaryColorDark.withOpacity(0.5), fontWeight: FontWeight.w100),
+        labelText: 'Phone Number',
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(
@@ -513,23 +466,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       validator: (value) {
         if (value.isEmpty) {
           addError(error: NameNullError);
-          return "";
+          return '';
         } else if (!nameValidatorRegExp.hasMatch(value)) {
           addError(error: InvalidNameError);
-          return "";
+          return '';
         }
         return null;
       },
       decoration: InputDecoration(
-        labelStyle: TextStyle(
-            fontFamily: 'PantonBold',
-            color: SecondaryColorDark.withOpacity(0.5),
-            fontWeight: FontWeight.w100),
-        labelText: "Full Name",
+        labelStyle: TextStyle(fontFamily: 'PantonBold', color: SecondaryColorDark.withOpacity(0.5), fontWeight: FontWeight.w100),
+        labelText: 'Full Name',
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenWidth(20),
-            horizontal: getProportionateScreenWidth(30)),
+        contentPadding: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(20), horizontal: getProportionateScreenWidth(30)),
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: getProportionateScreenWidth(26)),
           child: Icon(

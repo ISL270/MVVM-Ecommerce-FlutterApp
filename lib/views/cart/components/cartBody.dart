@@ -19,7 +19,7 @@ class cartBodyState extends State<cartBody> {
 
   @override
   void initState() {
-    u = Provider.of<auth_viewModel>(context, listen: false).CurrentUser();
+    u = Provider.of<AuthViewModel>(context, listen: false).CurrentUser();
     futureCart = Provider.of<globalVars>(context, listen: false).getUserCart(u);
     super.initState();
   }
@@ -27,8 +27,7 @@ class cartBodyState extends State<cartBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Consumer<globalVars>(builder: (_, gv, __) {
         return FutureBuilder(
           future: futureCart,
@@ -64,7 +63,7 @@ class cartBodyState extends State<cartBody> {
                               child: Row(
                                 children: [
                                   Spacer(),
-                                  SvgPicture.asset("assets/icons/Trash.svg"),
+                                  SvgPicture.asset('assets/icons/Trash.svg'),
                                 ],
                               ),
                             ),
@@ -84,17 +83,14 @@ class cartBodyState extends State<cartBody> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        "assets/icons/EmptyCart.svg",
+                        'assets/icons/EmptyCart.svg',
                         color: PrimaryColor,
                         height: getProportionateScreenWidth(70),
                       ),
                       SizedBox(height: getProportionateScreenHeight(20)),
                       Text(
-                        "Your Cart is Empty",
-                        style: TextStyle(
-                            fontFamily: 'Panton',
-                            color: SecondaryColor,
-                            fontWeight: FontWeight.w900),
+                        'Your Cart is Empty',
+                        style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                       )
                     ],
                   ),
@@ -109,17 +105,14 @@ class cartBodyState extends State<cartBody> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SvgPicture.asset(
-                      "assets/icons/EmptyCart.svg",
+                      'assets/icons/EmptyCart.svg',
                       color: PrimaryColor,
                       height: getProportionateScreenWidth(70),
                     ),
                     SizedBox(height: getProportionateScreenHeight(20)),
                     Text(
-                      "Your Cart is Empty",
-                      style: TextStyle(
-                          fontFamily: 'Panton',
-                          color: SecondaryColor,
-                          fontWeight: FontWeight.w900),
+                      'Your Cart is Empty',
+                      style: TextStyle(fontFamily: 'Panton', color: SecondaryColor, fontWeight: FontWeight.w900),
                     )
                   ],
                 ),

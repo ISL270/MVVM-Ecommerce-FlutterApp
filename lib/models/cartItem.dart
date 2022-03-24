@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'Product.dart';
+import 'product.dart';
 
-class cartItem {
+class CartItem {
   final Product product;
   int quantity;
   final String option1;
   final String uid;
 
-  cartItem(
-      {@required this.product,
-      @required this.quantity,
-      @required this.option1,
-      @required this.uid});
+  CartItem({@required this.product, @required this.quantity, @required this.option1, @required this.uid});
 }

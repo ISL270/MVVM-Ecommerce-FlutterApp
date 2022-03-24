@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../utils/size_config.dart';
 
 class FormError extends StatelessWidget {
@@ -22,7 +21,7 @@ class FormError extends StatelessWidget {
     return Row(
       children: [
         SvgPicture.asset(
-          "assets/icons/Error.svg",
+          'assets/icons/Error.svg',
           height: getProportionateScreenWidth(14),
           width: getProportionateScreenWidth(14),
         ),

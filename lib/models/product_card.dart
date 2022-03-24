@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/models/Product.dart';
-import 'package:ecommerce_app/views/prodDetails/details_screen.dart';
+import '../../../models/product.dart';
+import '../../../views/prodDetails/details_screen.dart';
 import '../utils/constants.dart';
 import '../utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -45,8 +45,7 @@ class ProductCard extends StatelessWidget {
                     memCacheWidth: 800,
                     maxHeightDiskCache: 800,
                     maxWidthDiskCache: 800,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => SizedBox(
+                    progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox(
                       width: getProportionateScreenWidth(6),
                       height: getProportionateScreenWidth(6),
                       child: Center(
@@ -57,17 +56,13 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
               ),
             ),
             SizedBox(height: getProportionateScreenHeight(6.5)),
-            Text(product.title,
-                maxLines: 1,
-                softWrap: false,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.black)),
+            Text(product.title, maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.black)),
             Text(
               "${product.price} EGP",
               style: TextStyle(

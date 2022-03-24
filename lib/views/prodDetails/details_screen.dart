@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ecommerce_app/utils/constants.dart';
-import 'package:ecommerce_app/models/Product.dart';
+import '../../../utils/constants.dart';
+import '../../../models/product.dart';
 import 'components/detailsBody.dart';
 
 class DetailsScreen extends StatelessWidget {
-  static String routeName = "/details";
+  static String routeName = '/details';
 
   @override
   Widget build(BuildContext context) {
-    final ProductDetailsArguments args =
-        ModalRoute.of(context).settings.arguments;
+    final ProductDetailsArguments args = ModalRoute.of(context).settings.arguments;
     return Container(
       color: PrimaryLightColor,
       child: SafeArea(
@@ -27,7 +26,7 @@ class DetailsScreen extends StatelessWidget {
               backgroundColor: Color(0xfff6f8f8),
               onPressed: () => Navigator.pop(context),
               child: SvgPicture.asset(
-                "assets/icons/Back ICon.svg",
+                'assets/icons/Back ICon.svg',
                 height: 15,
               ),
             ),

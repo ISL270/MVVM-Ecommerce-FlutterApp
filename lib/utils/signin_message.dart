@@ -1,28 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/utils/constants.dart';
-import 'package:ecommerce_app/utils/size_config.dart';
-import 'package:progress_state_button/progress_button.dart';
-import 'package:ecommerce_app/views/sign_in/SignInScreen.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/size_config.dart';
+import '../../../views/sign_in/SignInScreen.dart';
 
 class SignInMessage extends StatefulWidget {
+  const SignInMessage({Key key}) : super(key: key);
+
   @override
   _SignInMessageState createState() => _SignInMessageState();
 }
 
 class _SignInMessageState extends State<SignInMessage> {
-  ButtonState _stateTextWithIcon = ButtonState.idle;
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 30,
         vertical: 30,
       ),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
@@ -30,13 +26,10 @@ class _SignInMessageState extends State<SignInMessage> {
             children: [
               Text(
                 'You need to sign-in fIrst',
-                style: TextStyle(
-                    fontFamily: 'PantonBoldItalic',
-                    fontSize: getProportionateScreenHeight(17),
-                    color: Colors.grey.shade600),
+                style: TextStyle(fontFamily: 'PantonBoldItalic', fontSize: getProportionateScreenHeight(17), color: Colors.grey.shade600),
               ),
               SizedBox(height: getProportionateScreenHeight(25)),
-              SignInButton(),
+              SignInMessage(),
             ],
           ),
         ],
@@ -44,14 +37,11 @@ class _SignInMessageState extends State<SignInMessage> {
     );
   }
 
-  Widget SignInButton() {
+  Widget SignInMessage() {
     return ElevatedButton(
-      child: Text(
-        "Sign-In",
-        style: TextStyle(
-            color: Color(0xffeeecec),
-            fontSize: 17,
-            fontFamily: 'PantonBoldItalic'),
+      child: const Text(
+        'Sign-In',
+        style: TextStyle(color: Color(0xffeeecec), fontSize: 17, fontFamily: 'PantonBoldItalic'),
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -60,11 +50,9 @@ class _SignInMessageState extends State<SignInMessage> {
               vertical: getProportionateScreenWidth(12),
             ),
           ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
           backgroundColor: MaterialStateProperty.all<Color>(PrimaryColor),
-          overlayColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
+          overlayColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
             return null;
           })),
       onPressed: () {
