@@ -1,5 +1,5 @@
+import 'package:ecommerce_app/models/Product.dart';
 import 'package:flutter/material.dart';
-import '../../../models/product.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/size_config.dart';

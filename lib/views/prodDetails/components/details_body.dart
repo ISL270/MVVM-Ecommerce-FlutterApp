@@ -1,8 +1,7 @@
 import 'dart:developer';
-
+import 'package:ecommerce_app/models/Product.dart';
 import 'package:flutter/material.dart';
 import '../../../view_models/global_vars_view_model.dart';
-import '../../../models/product.dart';
 import '../../../utils/size_config.dart';
 import '../../../utils/constants.dart';
 import 'product_description.dart';
