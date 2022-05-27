@@ -52,4 +52,4 @@ The following resources were used during the development of this project:
 - [**Stack Overflow: Flutter**](https://stackoverflow.com/questions/tagged/flutter)
 - [**Some UI inspirations**](https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI)
 
-**Note:** I uploaded this project to github only to showcase my work and you cannot use it commercially by any means.
+**Note:** I uploaded this project to github only to showcase my work and you cannot use it commercially by any means. 
