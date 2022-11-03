@@ -17,7 +17,7 @@ I developed a fully functioning e-commerce flutter application that is compatibl
 
 **Note:** I didn't include my `GoogleService-Info.plist` & `google-services.json` files for obvious reasons, so you have to set up your own firebase project to be able to host this application, otherwise it won't work.
 
-**Disclaimer:** This is an old project that might need alot of code optimizations.
+**Disclaimer:** This is an old project that might need alot of code refactoring and optimizations.
 
 ## Preview
 ![Preview](/gifDemo.gif)
@@ -53,5 +53,3 @@ The following resources were used during the development of this project:
 - [**Flutter Apprentice Book**](https://www.raywenderlich.com/books/flutter-apprentice/v2.0)
 - [**Stack Overflow: Flutter**](https://stackoverflow.com/questions/tagged/flutter)
 - [**Some UI inspirations**](https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI)
-
-**Note:** I uploaded this project to github only to showcase my work and you cannot use it commercially by any means.  
